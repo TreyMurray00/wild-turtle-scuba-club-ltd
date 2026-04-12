@@ -3,9 +3,8 @@ import { rentalType } from "./rentalType"
 import { accomodationType } from "./accomodationType"
 import { courseType } from "./courseType"
 import { reviewType } from "./reviewType"
-import { disclaimerType } from "./disclaimerType"
+import { divesiteType } from "./divesiteType"
 import { serviceType } from "./serviceType"
 import { socialType } from "./socialType"
-import { privacypolicyType } from "./privacypolicyType"
 import { homeType } from "./homeType"
-export const schemaTypes = [aboutType, rentalType,accomodationType,courseType, reviewType, disclaimerType,serviceType,socialType,privacypolicyType, homeType]
+export const schemaTypes = [aboutType, rentalType, accomodationType, courseType, reviewType, divesiteType, serviceType, socialType, homeType]

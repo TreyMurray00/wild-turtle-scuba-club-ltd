@@ -17,6 +17,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AccommodationRouteImport } from './routes/accommodation'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as StudioSplatRouteImport } from './routes/studio.$'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
 
 const ServicesRoute = ServicesRouteImport.update({
@@ -59,6 +60,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StudioSplatRoute = StudioSplatRouteImport.update({
+  id: '/studio/$',
+  path: '/studio/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
   id: '/demo/tanstack-query',
   path: '/demo/tanstack-query',
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/services': typeof ServicesRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/studio/$': typeof StudioSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/services': typeof ServicesRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/studio/$': typeof StudioSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/services': typeof ServicesRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/studio/$': typeof StudioSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/services'
     | '/demo/tanstack-query'
+    | '/studio/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/services'
     | '/demo/tanstack-query'
+    | '/studio/$'
   id:
     | '__root__'
     | '/'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/services'
     | '/demo/tanstack-query'
+    | '/studio/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -145,6 +157,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   ServicesRoute: typeof ServicesRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
+  StudioSplatRoute: typeof StudioSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -205,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/studio/$': {
+      id: '/studio/$'
+      path: '/studio/$'
+      fullPath: '/studio/$'
+      preLoaderRoute: typeof StudioSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo/tanstack-query': {
       id: '/demo/tanstack-query'
       path: '/demo/tanstack-query'
@@ -225,6 +245,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   ServicesRoute: ServicesRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
+  StudioSplatRoute: StudioSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

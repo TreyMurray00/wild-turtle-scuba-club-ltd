@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export const serviceType = defineType({
   name: 'service',
@@ -10,16 +10,12 @@ export const serviceType = defineType({
       type: 'string',
     }),
     defineField({
-        name: "description",
-        type: "text"
+      name: "description",
+      type: "text"
     }),
     defineField({
-        name: "image",
-        type: "image"
+      name: "image",
+      type: "image"
     }),
-    defineField({
-        name: "price",
-        type:"number"
-    })
   ],
 })

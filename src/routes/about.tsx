@@ -3,6 +3,9 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Award, Heart, Shield, Users } from "lucide-react";
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
+import { useSanityQuery } from '../hooks/useSanityQuery';
+import { ABOUT_QUERY } from '../lib/sanity-queries';
+import { urlFor } from '../lib/sanity';
 
 
 export const Route = createFileRoute('/about')({
@@ -11,12 +14,17 @@ export const Route = createFileRoute('/about')({
 
 
 function About() {
+  const { data: aboutData, isLoading } = useSanityQuery(
+    ['sanity', 'about'],
+    ABOUT_QUERY
+  );
+
   return (
     <div>
       {/* Header */}
       <section className="bg-gradient-to-br from-accent-foreground to-primary text-primary-foreground py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-serif mb-4">About Us</h1>
+          <h1 className="text-5xl font-serif mb-4">About Us {isLoading && '(Loading...)'}</h1>
           <p className="text-xl max-w-2xl mx-auto">
             Your trusted partner for unforgettable ocean adventures since 2005
           </p>
@@ -29,30 +37,44 @@ function About() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-serif mb-6">Our Story</h2>
-              <div className="space-y-4 text-muted-foreground text-lg">
-                <p>
-                  Wild Turtle Scuba Club Ltd. was founded over 20 years ago by a group of passionate
-                  divers and marine conservationists who wanted to share their love of the ocean with others.
-                  What started as a small diving club has grown into a premier scuba and fishing service.
-                </p>
-                <p>
-                  Our name reflects our commitment to marine conservation, particularly the protection
-                  of sea turtles in our local waters. Today, we pride ourselves on offering safe, exciting,
-                  and environmentally responsible experiences for adventurers of all skill levels.
-                </p>
-                <p>
-                  Whether you're taking your first breath underwater or you're an experienced
-                  diver seeking new challenges, we're here to make your ocean dreams a reality while
-                  protecting the marine ecosystems we love.
-                </p>
+              <div className="space-y-4 text-muted-foreground text-lg whitespace-pre-wrap">
+                {aboutData?.about ? (
+                  <p>{aboutData.about}</p>
+                ) : (
+                  <>
+                    <p>
+                      Wild Turtle Scuba Club Ltd. was founded over 20 years ago by a group of passionate
+                      divers and marine conservationists who wanted to share their love of the ocean with others.
+                      What started as a small diving club has grown into a premier scuba and fishing service.
+                    </p>
+                    <p>
+                      Our name reflects our commitment to marine conservation, particularly the protection
+                      of sea turtles in our local waters. Today, we pride ourselves on offering safe, exciting,
+                      and environmentally responsible experiences for adventurers of all skill levels.
+                    </p>
+                    <p>
+                      Whether you're taking your first breath underwater or you're an experienced
+                      diver seeking new challenges, we're here to make your ocean dreams a reality while
+                      protecting the marine ecosystems we love.
+                    </p>
+                  </>
+                )}
               </div>
             </div>
             <div>
-              <ImageWithFallback
-                src="https://images.unsplash.com/photo-1628371190872-df8c9dee1093?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY3ViYSUyMGRpdmVyJTIwdW5kZXJ3YXRlciUyMG9jZWFufGVufDF8fHx8MTc3NTQ4Nzg1NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                alt="Scuba diver"
-                className="w-full h-96 object-cover rounded-lg shadow-lg"
-              />
+              {aboutData?.images && aboutData.images.length > 0 ? (
+                <img
+                  src={urlFor(aboutData.images[0]).width(800).url()}
+                  alt="About Us"
+                  className="w-full h-96 object-cover rounded-lg shadow-lg"
+                />
+              ) : (
+                <ImageWithFallback
+                  src="https://images.unsplash.com/photo-1628371190872-df8c9dee1093?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY3ViYSUyMGRpdmVyJTIwdW5kZXJ3YXRlciUyMG9jZWFufGVufDF8fHx8MTc3NTQ4Nzg1NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  alt="Scuba diver"
+                  className="w-full h-96 object-cover rounded-lg shadow-lg"
+                />
+              )}
             </div>
           </div>
         </div>

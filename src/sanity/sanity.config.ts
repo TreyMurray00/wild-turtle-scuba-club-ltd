@@ -5,11 +5,12 @@ import {schemaTypes} from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
-  title: 'Divingintobago',
+  title: 'Wild Turtle Scuba Club',
 
   projectId: 'ufihjryx',
   dataset: 'production',
 
+  basePath: '/studio', // Essential for embedded routing
   plugins: [structureTool(), visionTool()],
 
   schema: {

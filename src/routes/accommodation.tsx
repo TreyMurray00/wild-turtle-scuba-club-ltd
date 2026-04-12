@@ -3,8 +3,11 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
-import { Link } from "@tanstack/react-router";
+import { Link as RouterLink } from "@tanstack/react-router";
 import { Wifi, Coffee, UtensilsCrossed, Wind, MapPin, Star, Waves, Home } from "lucide-react";
+import { useSanityQuery } from '../hooks/useSanityQuery';
+import { ACCOMMODATION_QUERY } from '../lib/sanity-queries';
+import { urlFor } from '../lib/sanity';
 
 
 export const Route = createFileRoute('/accommodation')({
@@ -13,7 +16,12 @@ export const Route = createFileRoute('/accommodation')({
 
 
 function Accommodation() {
-  const accommodations = [
+  const { data: accommodationsData, isLoading } = useSanityQuery(
+    ['sanity', 'accommodation'],
+    ACCOMMODATION_QUERY
+  );
+
+  const accommodationsFallback = [
     {
       id: 1,
       name: "Ocean View Resort",
@@ -24,48 +32,30 @@ function Accommodation() {
       amenities: ["Free WiFi", "Pool", "Restaurant", "Beach Access", "Air Conditioning", "Parking"],
       priceRange: "$$$",
       description: "Luxurious beachfront resort with stunning ocean views and direct beach access. Perfect for divers seeking comfort and convenience."
-    },
-    {
-      id: 2,
-      name: "Coastal Inn",
-      type: "Budget-Friendly",
-      rating: 4.0,
-      distance: "1 mile from dive center",
-      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMHJvb20lMjBiZWFjaHxlbnwxfHx8fDE3NzU0ODc4NjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      amenities: ["Free WiFi", "Breakfast Included", "Air Conditioning", "Parking"],
-      priceRange: "$",
-      description: "Comfortable and affordable accommodation ideal for budget-conscious travelers. Clean, simple rooms with all essential amenities."
-    },
-    {
-      id: 3,
-      name: "Seaside Villas",
-      type: "Luxury Option",
-      rating: 5.0,
-      distance: "2 miles from dive center",
-      image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWFjaCUyMHZpbGxhJTIwbHV4dXJ5fGVufDF8fHx8MTc3NTQ4Nzg2MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      amenities: ["Private Pool", "Full Kitchen", "Ocean View", "WiFi", "Concierge Service", "BBQ Area"],
-      priceRange: "$$$$",
-      description: "Exclusive private villas with premium amenities. Ideal for families or groups seeking privacy and luxury during their diving vacation."
-    },
-    {
-      id: 4,
-      name: "Divers Lodge",
-      type: "Diver-Focused",
-      rating: 4.3,
-      distance: "0.2 miles from dive center",
-      image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMGxvYmJ5JTIwY29hc3RhbHxlbnwxfHx8fDE3NzU0ODc4NjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      amenities: ["Gear Storage", "Rinse Stations", "WiFi", "Breakfast", "Dive Equipment Room", "Air Filling Station"],
-      priceRange: "$$",
-      description: "Purpose-built accommodation designed specifically for divers. Features specialized facilities for equipment storage and maintenance."
     }
   ];
+
+  const accommodationsList = accommodationsData && accommodationsData.length > 0
+    ? accommodationsData.map((acc: any, idx: number) => ({
+        id: acc._id || idx,
+        name: acc.name,
+        type: "Partner Hotel",
+        rating: 5.0,
+        distance: "Local",
+        image: acc.image ? urlFor(acc.image).width(800).url() : "https://images.unsplash.com/photo-1566073771259-6a8506099945?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMHJvb20lMjBiZWFjaHxlbnwxfHx8fDE3NzU0ODc4NjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+        amenities: ["Free WiFi", "Beach Access", "Air Conditioning"],
+        priceRange: "Various",
+        description: acc.description,
+        link: acc.link
+      }))
+    : accommodationsFallback;
 
   return (
     <div>
       {/* Header */}
       <section className="bg-gradient-to-br from-accent-foreground to-primary text-primary-foreground py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-serif mb-4">Accommodation</h1>
+          <h1 className="text-5xl font-serif mb-4">Accommodation {isLoading && '(Loading...)'}</h1>
           <p className="text-xl max-w-2xl mx-auto">
             Comfortable places to stay near our dive center
           </p>
@@ -87,7 +77,7 @@ function Accommodation() {
       <section className="py-16 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {accommodations.map((accommodation) => (
+            {accommodationsList.map((accommodation: any) => (
               <Card key={accommodation.id} className="overflow-hidden hover:shadow-xl transition-shadow">
                 <ImageWithFallback
                   src={accommodation.image}
@@ -135,6 +125,11 @@ function Accommodation() {
                         {accommodation.priceRange}
                       </span>
                     </div>
+                    {accommodation.link && (
+                      <Button asChild>
+                        <a href={accommodation.link} target="_blank" rel="noreferrer">View Site</a>
+                      </Button>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -191,9 +186,9 @@ function Accommodation() {
                 and booking assistance.
               </p>
               <Button asChild size="lg">
-                <Link to="/contact">
+                <RouterLink to="/contact">
                   Contact Us for Booking Help
-                </Link>
+                </RouterLink>
               </Button>
             </CardContent>
           </Card>
