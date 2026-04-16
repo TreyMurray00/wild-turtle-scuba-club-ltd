@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ServicesRouteImport } from './routes/services'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
@@ -20,11 +19,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as StudioSplatRouteImport } from './routes/studio.$'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
 
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -79,7 +73,6 @@ export interface FileRoutesByFullPath {
   '/disclaimer': typeof DisclaimerRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
-  '/services': typeof ServicesRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/studio/$': typeof StudioSplatRoute
 }
@@ -91,7 +84,6 @@ export interface FileRoutesByTo {
   '/disclaimer': typeof DisclaimerRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
-  '/services': typeof ServicesRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/studio/$': typeof StudioSplatRoute
 }
@@ -104,7 +96,6 @@ export interface FileRoutesById {
   '/disclaimer': typeof DisclaimerRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
-  '/services': typeof ServicesRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/studio/$': typeof StudioSplatRoute
 }
@@ -118,7 +109,6 @@ export interface FileRouteTypes {
     | '/disclaimer'
     | '/pricing'
     | '/privacy'
-    | '/services'
     | '/demo/tanstack-query'
     | '/studio/$'
   fileRoutesByTo: FileRoutesByTo
@@ -130,7 +120,6 @@ export interface FileRouteTypes {
     | '/disclaimer'
     | '/pricing'
     | '/privacy'
-    | '/services'
     | '/demo/tanstack-query'
     | '/studio/$'
   id:
@@ -142,7 +131,6 @@ export interface FileRouteTypes {
     | '/disclaimer'
     | '/pricing'
     | '/privacy'
-    | '/services'
     | '/demo/tanstack-query'
     | '/studio/$'
   fileRoutesById: FileRoutesById
@@ -155,20 +143,12 @@ export interface RootRouteChildren {
   DisclaimerRoute: typeof DisclaimerRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
-  ServicesRoute: typeof ServicesRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
   StudioSplatRoute: typeof StudioSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -243,7 +223,6 @@ const rootRouteChildren: RootRouteChildren = {
   DisclaimerRoute: DisclaimerRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
-  ServicesRoute: ServicesRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
   StudioSplatRoute: StudioSplatRoute,
 }

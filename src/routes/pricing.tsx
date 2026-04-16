@@ -5,7 +5,17 @@ import { Button } from "../components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { Check, Clock, Users, Calendar, Package } from "lucide-react";
 import { useSanityQuery } from '../hooks/useSanityQuery';
-import { COURSES_QUERY, RENTALS_QUERY } from '../lib/sanity-queries';
+import { COURSES_QUERY, RENTALS_QUERY, DIVES_QUERY } from '../lib/sanity-queries';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { Skeleton } from "../components/ui/skeleton";
 
 
 export const Route = createFileRoute('/pricing')({
@@ -24,11 +34,17 @@ function Pricing() {
     RENTALS_QUERY
   );
 
+  const { data: dives, isLoading: loadingDives } = useSanityQuery(
+    ['sanity', 'dives'],
+    DIVES_QUERY
+  );
+
 
 
   const fallbackPricingData = [
     {
       category: "Diving Sessions",
+      type: "general",
       items: [
         {
           name: "Single Dive",
@@ -55,6 +71,7 @@ function Pricing() {
   if (courses && courses.length > 0) {
     dynamicPricingData.push({
       category: "Certification Courses",
+      type: "courses",
       items: courses.map((c: any) => ({
         name: c.name,
         price: c.cost ? `$${c.cost}` : "Contact Us",
@@ -68,21 +85,31 @@ function Pricing() {
 
 
   if (rentals && rentals.length > 0) {
-    // Map rentals potentially by category, but keep it simple as one broad category here if needed.
-    // Grouping by category property in rental:
-    const rentalCategories = new Set(rentals.map((r: any) => r.category || "General Rentals"));
-    rentalCategories.forEach(cat => {
-      dynamicPricingData.push({
-        category: cat,
-        items: rentals.filter((r: any) => (r.category || "General Rentals") === cat).map((r: any) => ({
-          name: r.name,
-          price: r.price ? `$${r.price}` : "Daily rate",
-          duration: r.duration || "Daily",
-          includes: ["Well-maintained gear", "Various sizes available"],
-          participants: "Per person"
-        }))
-      })
+    dynamicPricingData.push({
+      category: "Rentals",
+      type: "rentals",
+      items: rentals.map((r: any) => ({
+        name: r.name,
+        price: r.price ? `$${r.price}` : "Daily rate",
+        duration: r.duration || "Daily",
+        includes: ["Well-maintained gear"],
+        participants: "Per person"
+      }))
     })
+  }
+
+  if (dives && dives.length > 0) {
+    dynamicPricingData.push({
+      category: "Diving Sessions",
+      type: "general",
+      items: dives.map((d: any) => ({
+        name: d.name,
+        price: d.cost ? `$${d.cost}` : "Contact Us",
+        duration: "Flexible",
+        includes: d.includes || [d.description],
+        participants: "Open"
+      }))
+    });
   }
 
   const finalPricingData = dynamicPricingData.length > 0 ? dynamicPricingData : fallbackPricingData;
@@ -99,7 +126,7 @@ function Pricing() {
     }
   ];
 
-  const isLoading = loadingCourses || loadingRentals;
+  const isLoading = loadingCourses || loadingRentals || loadingDives;
 
   return (
     <div>
@@ -116,77 +143,171 @@ function Pricing() {
       {/* Pricing Categories */}
       <section className="py-16 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-16">
-            {finalPricingData.map((category, categoryIndex) => (
-              <div key={categoryIndex}>
-                <h2 className="text-3xl font-serif mb-8 text-center">
-                  {category.category}
-                </h2>
-                <div className="flex flex-col space-y-4">
-                  {category.items.map((item: any, itemIndex: number) => (
-                    <Card 
-                      key={itemIndex} 
-                      className={`relative overflow-hidden hover:shadow-md transition-shadow ${
-                        item.popular ? 'border-primary border-2' : ''
-                      }`}
-                    >
-                      {item.popular && (
-                        <div className="absolute top-4 right-4">
-                          <Badge className="bg-primary">Popular</Badge>
-                        </div>
-                      )}
-                      <CardContent className="p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                        <div className="flex-1 space-y-4">
-                          <div>
-                            <h3 className="font-serif text-2xl mb-1">
-                              {item.name}
-                            </h3>
-                            <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                              {item.duration && (
-                                <div className="flex items-center gap-1">
-                                  <Clock className="size-4 flex-shrink-0" />
-                                  <span>{item.duration}</span>
-                                </div>
-                              )}
-                              {item.participants && (
-                                <div className="flex items-center gap-1">
-                                  <Users className="size-4 flex-shrink-0" />
-                                  <span>{item.participants}</span>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="space-y-1">
-                            <p className="font-serif text-sm">Includes:</p>
-                            <div className="flex flex-col space-y-1">
-                              {item.includes.map((include: string, includeIndex: number) => (
-                                <div key={includeIndex} className="flex items-start gap-2 max-w-lg">
-                                  <Check className="size-4 text-primary flex-shrink-0 mt-0.5" />
-                                  <span className="text-sm text-muted-foreground">{include}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex flex-col items-start md:items-end gap-4 min-w-[200px] border-t md:border-t-0 md:border-l border-border pt-4 md:pt-0 md:pl-6">
-                          <div className="text-4xl font-serif text-primary">
-                            {item.price}
-                          </div>
-                          <Button asChild className="w-full md:w-auto">
-                            <Link to="/contact">
-                                Book Now
-                            </Link>
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+          {isLoading ? (
+            <div className="w-full min-h-[500px]">
+              <div className="flex justify-center mb-12 px-2">
+                <Skeleton className="h-[60px] w-full max-w-4xl rounded-2xl" />
               </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[1, 2, 3].map((i) => (
+                  <Skeleton key={i} className="h-[300px] w-full rounded-xl" />
+                ))}
+              </div>
+            </div>
+          ) : (
+          <Tabs defaultValue="courses" className="w-full">
+            <div className="flex justify-center mb-12 px-2">
+              <TabsList className="flex flex-col sm:flex-row h-auto w-full max-w-4xl bg-muted/80 p-1.5 rounded-2xl shadow-inner border border-input mx-auto gap-1">
+                {finalPricingData.map((category, idx) => (
+                  <TabsTrigger 
+                    key={idx} 
+                    value={category.type} 
+                    className="text-base sm:text-lg font-serif py-3 flex-1 px-4 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all duration-300"
+                  >
+                    {category.category}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
+            
+            <div className="min-h-[400px]">
+              {finalPricingData.map((category, categoryIndex) => (
+                <TabsContent 
+                  key={categoryIndex} 
+                  value={category.type} 
+                  className="mt-0 outline-none animate-in fade-in-50 slide-in-from-bottom-4 duration-500 ease-out"
+                >
+                  
+                  {category.type === 'rentals' ? (
+                    <div className="bg-card rounded-lg border shadow-sm overflow-hidden flex flex-col">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="text-lg text-center">Gear Item</TableHead>
+                          <TableHead className="text-lg text-center">Duration</TableHead>
+                          <TableHead className="text-lg text-center">Price</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {category.items.map((item: any, itemIndex: number) => (
+                          <TableRow key={itemIndex}>
+                            <TableCell className="font-medium text-center">{item.name}</TableCell>
+                            <TableCell className="text-center">{item.duration}</TableCell>
+                            <TableCell className="font-medium text-primary whitespace-nowrap text-center">{item.price}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                    <div className="p-6 border-t flex justify-center bg-muted/5">
+                      <Button asChild size="lg" className="w-full sm:w-auto min-w-[200px]">
+                        <Link to="/contact">Book Now</Link>
+                      </Button>
+                    </div>
+                  </div>
+                ) : category.type === 'general' ? (
+                  <div className="bg-card rounded-lg border shadow-sm overflow-hidden flex flex-col">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="text-lg text-center">Session</TableHead>
+                          <TableHead className="text-lg text-center">Includes</TableHead>
+                          <TableHead className="text-lg text-center">Duration</TableHead>
+                          <TableHead className="text-lg text-center">Price</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {category.items.map((item: any, itemIndex: number) => (
+                          <TableRow key={itemIndex}>
+                            <TableCell className="font-medium whitespace-nowrap text-center">
+                              {item.name}
+                              {item.popular && (
+                                <Badge className="ml-2 bg-primary hover:bg-primary text-[10px] px-1.5 py-0 h-4">Popular</Badge>
+                              )}
+                            </TableCell>
+                            <TableCell className="text-muted-foreground text-sm max-w-[200px] truncate mx-auto text-center" title={item.includes.join(', ')}>
+                              {item.includes.join(', ')}
+                            </TableCell>
+                            <TableCell className="whitespace-nowrap text-center">{item.duration}</TableCell>
+                            <TableCell className="font-medium text-primary whitespace-nowrap text-center">{item.price}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                    <div className="p-6 border-t flex justify-center bg-muted/5">
+                      <Button asChild size="lg" className="w-full sm:w-auto min-w-[200px]">
+                        <Link to="/contact">Book Now</Link>
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={(category.type === 'courses') ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" : "flex flex-col space-y-4"}>
+                    {category.items.map((item: any, itemIndex: number) => (
+                      <Card 
+                        key={itemIndex} 
+                        className={`relative overflow-hidden hover:shadow-md transition-shadow ${
+                          item.popular ? 'border-primary border-2' : ''
+                        } ${(category.type === 'courses') ? 'flex flex-col' : ''}`}
+                      >
+                        {item.popular && (
+                          <div className="absolute top-4 right-4">
+                            <Badge className="bg-primary">Popular</Badge>
+                          </div>
+                        )}
+                        <CardContent className={`p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 ${(category.type === 'courses') ? '!flex-col !items-start h-full' : ''}`}>
+                          <div className="flex-1 space-y-4 w-full">
+                            <div>
+                              <h3 className="font-serif text-2xl mb-1">
+                                {item.name}
+                              </h3>
+                              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+                                {item.duration && (
+                                  <div className="flex items-center gap-1">
+                                    <Clock className="size-4 flex-shrink-0" />
+                                    <span>{item.duration}</span>
+                                  </div>
+                                )}
+                                {item.participants && (
+                                  <div className="flex items-center gap-1">
+                                    <Users className="size-4 flex-shrink-0" />
+                                    <span>{item.participants}</span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="space-y-1">
+                              <p className="font-serif text-sm">Includes:</p>
+                              <div className="flex flex-col space-y-1">
+                                {item.includes.map((include: string, includeIndex: number) => (
+                                  <div key={includeIndex} className="flex items-start gap-2 max-w-lg">
+                                    <Check className="size-4 text-primary flex-shrink-0 mt-0.5" />
+                                    <span className="text-sm text-muted-foreground">{include}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className={`flex flex-col items-start gap-4 min-w-[200px] border-border ${(category.type === 'courses') ? 'border-t w-full pt-4 md:items-center md:border-l-0 md:pl-0 mt-auto' : 'md:items-end border-t md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-6'}`}>
+                            <div className="text-4xl font-serif text-primary">
+                              {item.price}
+                            </div>
+                            <Button asChild className="w-full md:w-auto">
+                              <Link to="/contact">
+                                  Book Now
+                              </Link>
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </TabsContent>
             ))}
-          </div>
+            </div>
+          </Tabs>
+          )}
         </div>
       </section>
 
@@ -252,3 +373,4 @@ function Pricing() {
     </div>
   );
 }
+

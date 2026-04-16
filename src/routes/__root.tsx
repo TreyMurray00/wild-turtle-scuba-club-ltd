@@ -83,9 +83,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                         <a href="/" className="hover:text-primary transition-colors">Home</a>
                       </li>
                       <li>
-                        <a href="/services" className="hover:text-primary transition-colors">Services</a>
-                      </li>
-                      <li>
                         <a href="/about" className="hover:text-primary transition-colors">About</a>
                       </li>
                       <li>

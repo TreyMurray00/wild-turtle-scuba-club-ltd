@@ -42,4 +42,12 @@ export const ACCOMMODATION_QUERY = `*[_type == "accomodation"] {
   description
 }`;
 
+export const DIVES_QUERY = `*[_type == "dive"] {
+  _id,
+  name,
+  description,
+  includes,
+  cost
+}`;
+
 

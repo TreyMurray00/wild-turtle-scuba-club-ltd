@@ -211,7 +211,7 @@ function Home() {
 
                 return (
                   <div key={service._id} className={style.container}>
-                    <Link to="/services" className="block w-full h-full">
+                    <Link to="/pricing" className="block w-full h-full">
                       {service.image ? (
                         <ImageWithFallback
                           src={urlFor(service.image).width(1200).url()}
@@ -334,8 +334,8 @@ function Home() {
 
           <div className="text-center mt-12">
             <Button asChild size="lg">
-              <Link to="/services">
-                View All Services
+              <Link to="/pricing">
+                View All Pricing
                 <ArrowRight className="ml-2 size-5" />
               </Link>
             </Button>
