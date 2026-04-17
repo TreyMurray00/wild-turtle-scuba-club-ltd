@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export const courseType = defineType({
   name: 'course',
@@ -10,19 +10,39 @@ export const courseType = defineType({
       type: 'string',
     }),
     defineField({
-        name: "cost",
-        type: "number"
+      name: "image",
+      type: "image",
+      options: {
+        hotspot: true
+      }
     }),
     defineField({
-        name: "image",
-        type: "image",
-        options:{
-          hotspot: true
-        }
+      name: "description",
+      type: "text"
     }),
     defineField({
-        name: "description",
-        type: "text"
+      name: "cost",
+      type: "string"
+    }),
+    defineField({
+      name: "duration",
+      type: "string"
+    }),
+    defineField({
+      name: "includes",
+      type: "array",
+      of: [{ type: "string" }]
+    }),
+    defineField({
+      name: "difficulty",
+      type: "string",
+      options: {
+        list: [
+          { title: "Beginner", value: "beginner" },
+          { title: "Intermediate", value: "intermediate" },
+          { title: "Advanced", value: "advanced" },
+        ],
+      }
     })
   ],
 })

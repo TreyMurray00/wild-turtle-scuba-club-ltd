@@ -17,7 +17,10 @@ export const COURSES_QUERY = `*[_type == "course"] {
   name,
   description,
   image,
-  cost
+  cost,
+  duration,
+  includes,
+  difficulty
 }`;
 
 export const RENTALS_QUERY = `*[_type == "rental"] {

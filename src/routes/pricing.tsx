@@ -4,9 +4,10 @@ import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Link } from "@tanstack/react-router";
-import { Check, Clock, Users, Calendar, Package } from "lucide-react";
+import { Check, Clock, Users, Calendar, Package, CreditCard, Home } from "lucide-react";
 import { useSanityQuery } from '../hooks/useSanityQuery';
 import { COURSES_QUERY, RENTALS_QUERY, DIVES_QUERY } from '../lib/sanity-queries';
+import { urlFor } from '../lib/sanity';
 import {
   Table,
   TableBody,
@@ -67,6 +68,12 @@ function Pricing() {
   ];
 
   // We map the retrieved sanity records dynamically to categories
+  const formatPrice = (val: any, fallback: string) => {
+    if (!val) return fallback;
+    const strVal = String(val);
+    return /[a-zA-Z]/.test(strVal) ? strVal : `$${strVal}`;
+  };
+
   let dynamicPricingData: any[] = [];
   
   if (courses && courses.length > 0) {
@@ -75,10 +82,13 @@ function Pricing() {
       type: "courses",
       items: courses.map((c: any) => ({
         name: c.name,
-        price: c.cost ? `$${c.cost}` : "Contact Us",
-        duration: "Flexible",
-        includes: [c.description || "Everything you need"],
-        participants: "Open",
+        price: formatPrice(c.cost, "Contact Us"),
+        duration: c.duration || "Flexible",
+        includes: c.includes || [],
+        description: c.description || "",
+        difficulty: c.difficulty || null,
+        image: c.image ? urlFor(c.image).url() : undefined,
+        popular: c.popular || false
       }))
     });
   }
@@ -91,7 +101,7 @@ function Pricing() {
       type: "rentals",
       items: rentals.map((r: any) => ({
         name: r.name,
-        price: r.price ? `$${r.price}` : "Daily rate",
+        price: formatPrice(r.price, "Daily rate"),
         duration: r.duration || "Daily",
         includes: ["Well-maintained gear"],
         participants: "Per person"
@@ -105,7 +115,7 @@ function Pricing() {
       type: "general",
       items: dives.map((d: any) => ({
         name: d.name,
-        price: d.cost ? `$${d.cost}` : "Contact Us",
+        price: formatPrice(d.cost, "Contact Us"),
         rate: d.rate || "Per dive",
         includes: d.includes || [],
         popular: d.popular,
@@ -164,7 +174,7 @@ function Pricing() {
                   <TabsTrigger 
                     key={idx} 
                     value={category.type} 
-                    className="text-base sm:text-lg font-serif py-3 flex-1 px-4 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all duration-300"
+                    className="text-base sm:text-lg font-serif py-3 flex-1 w-full px-4 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all duration-300"
                   >
                     {category.category}
                   </TabsTrigger>
@@ -172,6 +182,24 @@ function Pricing() {
               </TabsList>
             </div>
             
+            <div className="max-w-4xl mx-auto mb-10 bg-muted/50 border border-border rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row items-start gap-4 sm:gap-6 text-left shadow-sm">
+              <div className="bg-primary/10 p-3 rounded-full shrink-0">
+                <CreditCard className="size-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-serif text-xl font-bold text-foreground mb-2">Prices and Payment</h3>
+                <p className="text-muted-foreground mb-3 leading-relaxed">
+                  All prices are quoted in <strong>US$</strong> (our rate is $1 US = $6.5 TT).<br />
+                  Prices are subject to change without notice.
+                </p>
+                <div className="inline-flex items-center gap-2 bg-background border px-4 py-2 rounded-lg text-sm text-foreground shadow-sm">
+                  <span className="font-medium">We accept Visa and MasterCard</span>
+                  <span className="text-muted-foreground">—</span>
+                  <span className="font-medium text-amber-600 dark:text-amber-500">Please note there's a 4% charge to all card transactions.</span>
+                </div>
+              </div>
+            </div>
+
             <div className="min-h-[400px]">
               {finalPricingData.map((category, categoryIndex) => (
                 <TabsContent 
@@ -273,62 +301,87 @@ function Pricing() {
                     </div>
                   </div>
                 ) : (
-                  <div className={(category.type === 'courses') ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" : "flex flex-col space-y-4"}>
+                  <div className="flex flex-col gap-8">
                     {category.items.map((item: any, itemIndex: number) => (
                       <Card 
                         key={itemIndex} 
-                        className={`relative overflow-hidden hover:shadow-md transition-shadow ${
-                          item.popular ? 'border-primary border-2' : ''
-                        } ${(category.type === 'courses') ? 'flex flex-col' : ''}`}
+                        className={`relative overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row bg-card ${
+                          item.popular ? 'border-primary shadow-md' : 'border-border/50'
+                        }`}
                       >
-                        {item.popular && (
-                          <div className="absolute top-4 right-4">
-                            <Badge className="bg-primary">Popular</Badge>
-                          </div>
-                        )}
-                        <CardContent className={`p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 ${(category.type === 'courses') ? '!flex-col !items-start h-full' : ''}`}>
-                          <div className="flex-1 space-y-4 w-full">
-                            <div>
-                              <h3 className="font-serif text-2xl mb-1">
-                                {item.name}
-                              </h3>
-                              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                                {item.duration && (
-                                  <div className="flex items-center gap-1">
-                                    <Clock className="size-4 flex-shrink-0" />
-                                    <span>{item.duration}</span>
-                                  </div>
-                                )}
-                                {item.participants && (
-                                  <div className="flex items-center gap-1">
-                                    <Users className="size-4 flex-shrink-0" />
-                                    <span>{item.participants}</span>
-                                  </div>
-                                )}
-                              </div>
+                        {/* Image holding container ensures an elegant placeholder if an image is not yet uploaded */}
+                        <div className="w-full md:w-[40%] min-h-[300px] relative bg-muted shrink-0 group flex items-center justify-center border-r border-border/50">
+                          {item.image ? (
+                            <>
+                              <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 z-10" />
+                              <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
+                            </>
+                          ) : (
+                            <div className="text-muted-foreground/40 flex flex-col items-center gap-2">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-12"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                              <span className="text-sm font-medium">Image Placeholder</span>
                             </div>
+                          )}
 
-                            <div className="space-y-1">
-                              <p className="font-serif text-sm">Includes:</p>
-                              <div className="flex flex-col space-y-1">
+                          {item.popular && (
+                            <div className="absolute top-4 right-4 z-20">
+                              <Badge className="bg-primary hover:bg-primary shadow-sm backdrop-blur-sm text-primary-foreground border-none">Popular</Badge>
+                            </div>
+                          )}
+                        </div>
+                        
+                        <CardContent className="p-6 md:p-8 flex flex-col flex-1 w-full relative">
+                          <h3 className="font-serif text-2xl md:text-3xl mb-4 text-card-foreground">
+                            {item.name}
+                          </h3>
+                          {item.description && (
+                            <p className="text-muted-foreground text-base mb-6 leading-relaxed whitespace-pre-wrap">
+                              {item.description}
+                            </p>
+                          )}
+                          
+                          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-8">
+                            {item.duration && (
+                              <div className="flex items-center gap-1.5 bg-muted/50 px-3 py-1.5 rounded-md">
+                                <Clock className="size-4 text-primary" />
+                                <span className="font-medium">{item.duration}</span>
+                              </div>
+                            )}
+                            {item.difficulty && (
+                               <Badge className={`
+                                 ${item.difficulty === 'beginner' ? 'bg-green-500/10 text-green-700 hover:bg-green-500/20' : ''}
+                                 ${item.difficulty === 'intermediate' ? 'bg-amber-500/10 text-amber-700 hover:bg-amber-500/20' : ''}
+                                 ${item.difficulty === 'advanced' ? 'bg-red-500/10 text-red-700 hover:bg-red-500/20' : ''}
+                                 capitalize border-none shadow-none px-3 py-1.5 text-xs
+                               `}>
+                                 {item.difficulty} Level
+                               </Badge>
+                            )}
+                          </div>
+
+                          {item.includes && item.includes.length > 0 && (
+                            <div className="space-y-3 mb-8 flex-1">
+                              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Course Includes</p>
+                              <div className="flex flex-col space-y-2">
                                 {item.includes.map((include: string, includeIndex: number) => (
-                                  <div key={includeIndex} className="flex items-start gap-2 max-w-lg">
-                                    <Check className="size-4 text-primary flex-shrink-0 mt-0.5" />
-                                    <span className="text-sm text-muted-foreground">{include}</span>
+                                  <div key={includeIndex} className="flex items-start gap-3">
+                                    <div className="mt-0.5 bg-primary/10 rounded-full p-1">
+                                      <Check className="size-3 text-primary flex-shrink-0" strokeWidth={3} />
+                                    </div>
+                                    <span className="text-base text-muted-foreground leading-snug">{include}</span>
                                   </div>
                                 ))}
                               </div>
                             </div>
-                          </div>
+                          )}
 
-                          <div className={`flex flex-col items-start gap-4 min-w-[200px] border-border ${(category.type === 'courses') ? 'border-t w-full pt-4 md:items-center md:border-l-0 md:pl-0 mt-auto' : 'md:items-end border-t md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-6'}`}>
-                            <div className="text-4xl font-serif text-primary">
-                              {item.price}
+                          <div className="mt-auto pt-6 border-t border-border/50 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                            <div>
+                              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Course Fee</p>
+                              <div className="text-3xl font-serif text-primary">{item.price}</div>
                             </div>
-                            <Button asChild className="w-full md:w-auto">
-                              <Link to="/contact">
-                                  Book Now
-                              </Link>
+                            <Button asChild size="lg" className="rounded-full px-8 shrink-0 transition-transform hover:scale-105 active:scale-95 w-full sm:w-auto">
+                              <Link to="/contact">Book Now</Link>
                             </Button>
                           </div>
                         </CardContent>
@@ -341,6 +394,24 @@ function Pricing() {
             </div>
           </Tabs>
           )}
+        </div>
+      </section>
+
+      {/* Accommodation Notice */}
+      <section className="py-16 bg-primary/5 border-y border-primary/10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="flex justify-center mb-6">
+             <div className="bg-primary/10 p-4 rounded-full">
+               <Home className="size-10 text-primary" />
+             </div>
+          </div>
+          <h2 className="text-3xl font-serif mb-4 text-foreground">Need a place to stay?</h2>
+          <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto">
+            We can assist with your accommodation needs. Let us know your ideas, comfort range and price and we will be happy to help. Here is a list of links to hotels and guest houses that we recommend.
+          </p>
+          <Button asChild size="lg" className="rounded-full shadow-md text-base px-8 transition-transform hover:scale-105 active:scale-95">
+            <Link to="/accommodation">View Recommended Accommodations</Link>
+          </Button>
         </div>
       </section>
 

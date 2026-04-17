@@ -8,6 +8,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { Navigation } from '../components/Navigation'
+import { ScrollToTop } from '../components/ScrollToTop'
 import { Mail, Phone, MapPin } from "lucide-react"
 
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
@@ -128,6 +129,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             </footer>
           </div>
         )}
+        <ScrollToTop />
         <TanStackDevtools
           config={{ position: 'bottom-right' }}
           plugins={[{ name: 'Tanstack Router', render: <TanStackRouterDevtoolsPanel /> }, TanStackQueryDevtools]}
