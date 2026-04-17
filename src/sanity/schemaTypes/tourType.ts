@@ -1,8 +1,8 @@
 import { defineField, defineType } from "sanity";
 
-export const diveType = defineType({
-    name: "dive",
-    title: "Dive",
+export const tourType = defineType({
+    name: "tour",
+    title: "Tour",
     type: "document",
     fields: [
         defineField({

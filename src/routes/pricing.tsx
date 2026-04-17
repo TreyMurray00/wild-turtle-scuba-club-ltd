@@ -1,3 +1,4 @@
+import React from 'react';
 import { createFileRoute } from '@tanstack/react-router'
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
@@ -49,14 +50,14 @@ function Pricing() {
         {
           name: "Single Dive",
           price: "$120",
-          duration: "3-4 hours",
+          rate: "Per dive",
           includes: ["Equipment rental", "Professional guide", "Safety briefing", "Boat transportation"],
           participants: "Min 2, Max 6"
         },
         {
           name: "Two-Tank Dive",
           price: "$200",
-          duration: "5-6 hours",
+          rate: "Per dive",
           includes: ["Equipment rental", "Professional guide", "Two dive sites", "Boat transportation", "Snacks and drinks"],
           participants: "Min 2, Max 6",
           popular: true
@@ -105,8 +106,9 @@ function Pricing() {
       items: dives.map((d: any) => ({
         name: d.name,
         price: d.cost ? `$${d.cost}` : "Contact Us",
-        duration: "Flexible",
-        includes: d.includes || [d.description],
+        rate: d.rate || "Per dive",
+        includes: d.includes || [],
+        popular: d.popular,
         participants: "Open"
       }))
     });
@@ -180,21 +182,41 @@ function Pricing() {
                   
                   {category.type === 'rentals' ? (
                     <div className="bg-card rounded-lg border shadow-sm overflow-hidden flex flex-col">
-                    <Table>
+                    <Table className="table-fixed">
                       <TableHeader>
                         <TableRow>
-                          <TableHead className="text-lg text-center">Gear Item</TableHead>
-                          <TableHead className="text-lg text-center">Duration</TableHead>
-                          <TableHead className="text-lg text-center">Price</TableHead>
+                          <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground px-4 sm:px-6 w-1/2">Gear Item</TableHead>
+                          <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground text-center w-1/4">Duration</TableHead>
+                          <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground text-right px-4 sm:px-6 w-1/4">Price</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {category.items.map((item: any, itemIndex: number) => (
-                          <TableRow key={itemIndex}>
-                            <TableCell className="font-medium text-center">{item.name}</TableCell>
-                            <TableCell className="text-center">{item.duration}</TableCell>
-                            <TableCell className="font-medium text-primary whitespace-nowrap text-center">{item.price}</TableCell>
-                          </TableRow>
+                        {Array.from(new Set(category.items.map((i: any) => i.duration))).map((durationValue: any) => (
+                          <React.Fragment key={durationValue as string}>
+                            <TableRow className="border-t bg-muted/5">
+                              <TableCell colSpan={3} className="text-right text-primary text-xs tracking-widest font-bold uppercase py-3 px-4 sm:px-6">
+                                {durationValue === 'Daily' ? 'Per-day' : durationValue} Rentals
+                              </TableCell>
+                            </TableRow>
+                            {category.items.filter((i: any) => i.duration === durationValue).map((item: any, itemIndex: number) => (
+                              <TableRow key={`${durationValue}-${itemIndex}`}>
+                                <TableCell className="font-medium px-4 sm:px-6">
+                                  <div className="flex items-center gap-4">
+                                    <div className="size-5 bg-primary flex-shrink-0 rounded flex items-center justify-center text-primary-foreground">
+                                      <Check className="size-3" strokeWidth={3} />
+                                    </div>
+                                    <span className="text-base">{item.name}</span>
+                                  </div>
+                                </TableCell>
+                                <TableCell className="text-center">
+                                  <Badge className="bg-primary-foreground border-none hover:bg-primary-foreground text-primary font-medium rounded-full px-3 py-0.5 whitespace-nowrap">
+                                    {item.duration}
+                                  </Badge>
+                                </TableCell>
+                                <TableCell className="font-medium text-lg text-primary whitespace-nowrap text-right px-4 sm:px-6">{item.price}</TableCell>
+                              </TableRow>
+                            ))}
+                          </React.Fragment>
                         ))}
                       </TableBody>
                     </Table>
@@ -206,29 +228,40 @@ function Pricing() {
                   </div>
                 ) : category.type === 'general' ? (
                   <div className="bg-card rounded-lg border shadow-sm overflow-hidden flex flex-col">
-                    <Table>
+                    <Table className="table-fixed">
                       <TableHeader>
                         <TableRow>
-                          <TableHead className="text-lg text-center">Session</TableHead>
-                          <TableHead className="text-lg text-center">Includes</TableHead>
-                          <TableHead className="text-lg text-center">Duration</TableHead>
-                          <TableHead className="text-lg text-center">Price</TableHead>
+                          <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground px-4 sm:px-6 w-2/5">Session</TableHead>
+                          <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground text-center">Rate</TableHead>
+                          <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground text-center w-1/4">Includes</TableHead>
+                          <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground text-right px-4 sm:px-6 w-1/5">Price</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {category.items.map((item: any, itemIndex: number) => (
                           <TableRow key={itemIndex}>
-                            <TableCell className="font-medium whitespace-nowrap text-center">
-                              {item.name}
-                              {item.popular && (
-                                <Badge className="ml-2 bg-primary hover:bg-primary text-[10px] px-1.5 py-0 h-4">Popular</Badge>
-                              )}
+                            <TableCell className="font-medium px-4 sm:px-6">
+                              <div className="flex items-center gap-4">
+                                <div className="size-5 bg-primary flex-shrink-0 rounded flex items-center justify-center text-primary-foreground">
+                                  <Check className="size-3" strokeWidth={3} />
+                                </div>
+                                <span className="text-base">{item.name}</span>
+                                {item.popular && (
+                                  <Badge className="bg-primary hover:bg-primary text-[10px] px-1.5 py-0 h-4">Popular</Badge>
+                                )}
+                              </div>
                             </TableCell>
-                            <TableCell className="text-muted-foreground text-sm max-w-[200px] truncate mx-auto text-center" title={item.includes.join(', ')}>
-                              {item.includes.join(', ')}
+                            <TableCell className="text-center">
+                              <Badge className="bg-primary-foreground border-none hover:bg-primary-foreground text-primary font-medium rounded-full px-3 py-0.5 whitespace-nowrap">
+                                {item.rate}
+                              </Badge>
                             </TableCell>
-                            <TableCell className="whitespace-nowrap text-center">{item.duration}</TableCell>
-                            <TableCell className="font-medium text-primary whitespace-nowrap text-center">{item.price}</TableCell>
+                            <TableCell className="text-center text-sm text-muted-foreground">
+                              <div className="max-w-[150px] truncate mx-auto" title={item.includes.join(', ')}>
+                                {item.includes.join(', ')}
+                              </div>
+                            </TableCell>
+                            <TableCell className="font-medium text-lg text-primary whitespace-nowrap text-right px-4 sm:px-6">{item.price}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
