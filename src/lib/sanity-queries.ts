@@ -57,6 +57,20 @@ export const DIVES_QUERY = `*[_type == "dive"] {
   description,
   includes,
   cost
+}  `;
+
+export const DIVESITES_QUERY = `*[_type == "divesite"] {
+  _id,
+  name,
+  maxDepth,
+  difficulty,
+  description,
+  images
 }`;
 
-
+export const CONTACT_QUERY = `*[_type == "contact"][0] {
+  email,
+  address,
+  phone,
+  whatsapp
+}`;

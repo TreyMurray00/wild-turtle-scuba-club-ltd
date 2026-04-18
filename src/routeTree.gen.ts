@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as DivesitesRouteImport } from './routes/divesites'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as AccommodationRouteImport } from './routes/accommodation'
 import { Route as AboutRouteImport } from './routes/about'
@@ -26,6 +27,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DivesitesRoute = DivesitesRouteImport.update({
+  id: '/divesites',
+  path: '/divesites',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DisclaimerRoute = DisclaimerRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/accommodation': typeof AccommodationRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/divesites': typeof DivesitesRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/accommodation': typeof AccommodationRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/divesites': typeof DivesitesRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/accommodation': typeof AccommodationRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/divesites': typeof DivesitesRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/accommodation'
     | '/disclaimer'
+    | '/divesites'
     | '/pricing'
     | '/privacy'
     | '/demo/tanstack-query'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/accommodation'
     | '/disclaimer'
+    | '/divesites'
     | '/pricing'
     | '/privacy'
     | '/demo/tanstack-query'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/accommodation'
     | '/disclaimer'
+    | '/divesites'
     | '/pricing'
     | '/privacy'
     | '/demo/tanstack-query'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AccommodationRoute: typeof AccommodationRoute
   DisclaimerRoute: typeof DisclaimerRoute
+  DivesitesRoute: typeof DivesitesRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
@@ -148,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/divesites': {
+      id: '/divesites'
+      path: '/divesites'
+      fullPath: '/divesites'
+      preLoaderRoute: typeof DivesitesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/disclaimer': {
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AccommodationRoute: AccommodationRoute,
   DisclaimerRoute: DisclaimerRoute,
+  DivesitesRoute: DivesitesRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,

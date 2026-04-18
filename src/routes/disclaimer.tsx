@@ -1,5 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Card, CardContent } from "../components/ui/card";
+import { useSanityQuery } from "../hooks/useSanityQuery";
+import { CONTACT_QUERY } from "../lib/sanity-queries";
 import { AlertCircle } from "lucide-react";
 
 
@@ -17,6 +19,8 @@ export const Route = createFileRoute('/disclaimer')({
 
 
 function Disclaimer() {
+  const { data: contact } = useSanityQuery(['sanity', 'contact'], CONTACT_QUERY);
+
   return (
     <div>
       {/* Header */}
@@ -178,9 +182,11 @@ function Disclaimer() {
                 </p>
                 <div className="mt-4 text-muted-foreground">
                   <p>Wild Turtle Scuba Club Ltd.</p>
-                  <p>123 Ocean Drive, Coastal City, CA 90210</p>
-                  <p>Email: info@wildturtlescuba.com</p>
-                  <p>Phone: (555) 123-4567</p>
+                  {contact?.address?.map((line: string, i: number) => (
+                    <p key={i}>{line}</p>
+                  )) || <p>123 Ocean Drive, Coastal City, CA 90210</p>}
+                  <p>Email: {contact?.email || "info@wildturtlescuba.com"}</p>
+                  <p>Phone: {contact?.phone || "(555) 123-4567"}</p>
                 </div>
               </div>
             </CardContent>

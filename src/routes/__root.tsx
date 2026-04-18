@@ -12,6 +12,8 @@ import { Navigation } from '../components/Navigation'
 import { ScrollToTop } from '../components/ScrollToTop'
 import { Mail, Phone, MapPin, Anchor } from "lucide-react"
 import { Button } from '../components/ui/button'
+import { useSanityQuery } from '../hooks/useSanityQuery'
+import { CONTACT_QUERY } from '../lib/sanity-queries'
 
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import appCss from '../styles.css?url'
@@ -62,6 +64,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 function RootDocument({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const isStudio = location.pathname.startsWith('/studio');
+  const { data: contact } = useSanityQuery(['sanity', 'contact'], CONTACT_QUERY, {}, { enabled: !isStudio });
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -86,15 +89,20 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                     <div className="space-y-3 text-primary-foreground/80">
                       <div className="flex items-center gap-2">
                         <Phone className="size-5" />
-                        <span>(555) 123-4567</span>
+                        <span>{contact?.phone || "(555) 123-4567"}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Mail className="size-5" />
-                        <span>info@wildturtlescuba.com</span>
+                        <span>{contact?.email || "info@wildturtlescuba.com"}</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <MapPin className="size-5" />
-                        <span>123 Ocean Drive, Coastal City</span>
+                      <div className="flex flex-col gap-1 mt-2">
+                        <div className="flex items-center gap-2">
+                          <MapPin className="size-5" />
+                          <span>Wild Turtle Scuba Club Ltd.</span>
+                        </div>
+                        {contact?.address?.map((line: string, i: number) => (
+                           <span key={i} className="ml-7 block">{line}</span>
+                        )) || <span className="ml-7 block">123 Ocean Drive, Coastal City</span>}
                       </div>
                     </div>
                   </div>
@@ -124,6 +132,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                       </li>
                       <li>
                         <a href="/accommodation" className="hover:text-primary transition-colors">Accommodation</a>
+                      </li>
+                      <li>
+                        <a href="/divesites" className="hover:text-primary transition-colors">Dive Sites</a>
                       </li>
                       <li>
                         <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>

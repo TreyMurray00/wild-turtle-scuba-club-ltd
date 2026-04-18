@@ -5,7 +5,7 @@ import { courseType } from "./courseType"
 import { reviewType } from "./reviewType"
 import { divesiteType } from "./divesiteType"
 import { serviceType } from "./serviceType"
-import { socialType } from "./socialType"
+import { contactType } from "./contactType"
 import { homeType } from "./homeType"
 import { diveType } from "./diveType"
-export const schemaTypes = [aboutType, rentalType, accomodationType, courseType, reviewType, divesiteType, serviceType, socialType, homeType, diveType]
+export const schemaTypes = [aboutType, rentalType, accomodationType, courseType, reviewType, divesiteType, serviceType, contactType, homeType, diveType]
