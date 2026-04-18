@@ -11,6 +11,14 @@ import { Skeleton } from '../components/ui/skeleton';
 
 export const Route = createFileRoute('/accommodation')({
   component: Accommodation,
+  head: () => ({
+    meta: [
+      { title: 'Recommended Accommodations | Wild Turtle Scuba Club Ltd.' },
+      { name: 'description', content: 'Explore our hand-picked recommendations for comfortable lodging near our dive center. From resorts to guest houses.' },
+      { property: 'og:title', content: 'Recommended Accommodations | Wild Turtle Scuba Club Ltd.' },
+      { property: 'og:description', content: 'Explore our hand-picked recommendations for comfortable lodging near our dive center. From resorts to guest houses.' }
+    ]
+  })
 })
 
 function Accommodation() {
@@ -18,16 +26,6 @@ function Accommodation() {
     ['sanity', 'accommodation'],
     ACCOMMODATION_QUERY
   );
-
-  const accommodationsFallback = [
-    {
-      id: 1,
-      name: "Ocean View Resort",
-      image: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWFjaCUyMHJlc29ydCUyMG9jZWFuJTIwdmlld3xlbnwxfHx8fDE3NzU0ODc4NjF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      description: "Luxurious beachfront resort with stunning ocean views and direct beach access. Perfect for divers seeking comfort and convenience.",
-      link: "#"
-    }
-  ];
 
   const accommodationsList = accommodationsData && accommodationsData.length > 0
     ? accommodationsData.map((acc: any, idx: number) => ({
@@ -37,7 +35,7 @@ function Accommodation() {
         description: acc.description,
         link: acc.link
       }))
-    : accommodationsFallback;
+    : [];
 
   return (
     <div>

@@ -4,6 +4,14 @@ import { Card, CardContent } from "../components/ui/card";
 
 export const Route = createFileRoute('/privacy')({
   component: Privacy,
+  head: () => ({
+    meta: [
+      { title: 'Privacy Policy | Wild Turtle Scuba Club Ltd.' },
+      { name: 'description', content: 'Learn how Wild Turtle Scuba Club Ltd. collects, uses, and safeguards your personal information.' },
+      { property: 'og:title', content: 'Privacy Policy | Wild Turtle Scuba Club Ltd.' },
+      { property: 'og:description', content: 'Learn how Wild Turtle Scuba Club Ltd. collects, uses, and safeguards your personal information.' }
+    ]
+  })
 })
 
 

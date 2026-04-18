@@ -11,6 +11,14 @@ import { Card, CardContent } from "../components/ui/card";
 
 export const Route = createFileRoute('/contact')({
   component: Contact,
+  head: () => ({
+    meta: [
+      { title: 'Contact Us | Wild Turtle Scuba Club Ltd.' },
+      { name: 'description', content: 'Book your next underwater adventure or fishing trip. Contact Wild Turtle Scuba Club today.' },
+      { property: 'og:title', content: 'Contact Us | Wild Turtle Scuba Club Ltd.' },
+      { property: 'og:description', content: 'Book your next underwater adventure or fishing trip. Contact Wild Turtle Scuba Club today.' }
+    ]
+  })
 })
 
 

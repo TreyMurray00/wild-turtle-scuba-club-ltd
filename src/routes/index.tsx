@@ -4,16 +4,23 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { ArrowRight, Anchor, Fish, Waves, Award } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
+import { Skeleton } from "../components/ui/skeleton";
 import SliderPkg from 'react-slick';
 import { useSanityQuery } from '../hooks/useSanityQuery';
 import { SERVICES_QUERY, HOME_QUERY } from '../lib/sanity-queries';
 import { urlFor } from '../lib/sanity';
 
-
 export const Route = createFileRoute('/')({
   component: Home,
+  head: () => ({
+    meta: [
+      { title: 'Home | Wild Turtle Scuba Club Ltd.' },
+      { name: 'description', content: 'Join Wild Turtle Scuba Club for unforgettable underwater experiences. Scuba diving sessions, PADI certification, deep sea fishing, and more.' },
+      { property: 'og:title', content: 'Home | Wild Turtle Scuba Club Ltd.' },
+      { property: 'og:description', content: 'Join Wild Turtle Scuba Club for unforgettable underwater experiences. Scuba diving sessions, PADI certification, deep sea fishing, and more.' }
+    ]
+  })
 })
-
 
 const Slider = typeof SliderPkg === 'object' && SliderPkg.default ? SliderPkg.default : SliderPkg;
 
@@ -31,31 +38,12 @@ function Home() {
     arrows: true,
   };
 
-  const heroImagesFallback = [
-    {
-      url: "https://images.unsplash.com/photo-1628371190872-df8c9dee1093?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY3ViYSUyMGRpdmVyJTIwdW5kZXJ3YXRlciUyMG9jZWFufGVufDF8fHx8MTc3NTQ4Nzg1NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      alt: "Scuba diver underwater"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1602144586093-06c14ac4fe4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cm9waWNhbCUyMGZpc2glMjBjb3JhbCUyMHJlZWZ8ZW58MXx8fHwxNzc1NDY3MzcwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      alt: "Coral reef with tropical fish"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzZWElMjB0dXJ0bGUlMjB1bmRlcndhdGVyfGVufDF8fHx8MTc3NTQ4Nzg2MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      alt: "Sea turtle swimming"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY3ViYSUyMGRpdmluZyUyMGdyb3VwfGVufDF8fHx8MTc3NTQ4Nzg2MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      alt: "Group of scuba divers"
-    }
-  ];
-
-  const { data: homeData } = useSanityQuery(
+  const { data: homeData, isLoading: isHomeLoading } = useSanityQuery(
     ['sanity', 'home'],
     HOME_QUERY
   );
 
-  const { data: services, isLoading } = useSanityQuery(
+  const { data: services, isLoading: isServicesLoading } = useSanityQuery(
     ['sanity', 'services'],
     SERVICES_QUERY
   );
@@ -65,41 +53,57 @@ function Home() {
         url: urlFor(img).url(),
         alt: "Hero image"
       }))
-    : heroImagesFallback;
+    : [];
   
-  const headline = homeData?.herotitle || "Dive Into Adventure";
-  const subheadline = homeData?.herotitle2 || "Join Wild Turtle Scuba Club for unforgettable underwater experiences";
+  const headline = homeData?.herotitle || "";
+  const subheadline = homeData?.herotitle2 || "";
 
   return (
     <div>
       {/* Hero Section with Carousel */}
-      <section className="relative h-[600px]">
-        <div className="hero-carousel absolute inset-0">
-          <Slider {...carouselSettings}>
-            {activeImages.map((image: any, index: number) => (
-              <div key={index} className="relative h-[600px]">
-                <ImageWithFallback
-                  src={image.url}
-                  alt={image.alt}
-                  className="w-full h-[600px] object-cover"
-                />
-              </div>
-            ))}
-          </Slider>
-        </div>
+      <section className="relative h-[600px] bg-accent-foreground/90">
+        {isHomeLoading ? (
+          <Skeleton className="w-full h-full rounded-none opacity-50" />
+        ) : (
+          <div className="hero-carousel absolute inset-0">
+            {activeImages.length > 0 && (
+              <Slider {...carouselSettings}>
+                {activeImages.map((image: any, index: number) => (
+                  <div key={index} className="relative h-[600px]">
+                    <ImageWithFallback
+                      src={image.url}
+                      alt={image.alt}
+                      className="w-full h-[600px] object-cover"
+                    />
+                  </div>
+                ))}
+              </Slider>
+            )}
+          </div>
+        )}
         
         {/* Dark overlay */}
-        <div className="absolute inset-0 bg-accent-foreground/70 z-[5]"></div>
+        <div className="absolute inset-0 bg-accent-foreground/60 z-[5]"></div>
         
         {/* Content overlay */}
-        <div className="absolute inset-0 flex items-center justify-center z-10">
-          <div className="text-center max-w-4xl mx-auto px-4 text-primary-foreground">
-            <h1 className="text-5xl md:text-6xl font-serif mb-6 whitespace-pre-wrap">
-              {headline}
-            </h1>
-            <p className="text-xl md:text-2xl mb-8">
-              {subheadline}
-            </p>
+        <div className="absolute inset-0 flex items-center justify-center z-10 w-full">
+          <div className="text-center max-w-4xl mx-auto px-4 text-primary-foreground w-full flex flex-col items-center">
+            {isHomeLoading ? (
+              <Skeleton className="h-16 w-3/4 mb-6 bg-primary-foreground/20 rounded-xl" />
+            ) : (
+              <h1 className="text-5xl md:text-6xl font-serif mb-6 whitespace-pre-wrap">
+                {headline}
+              </h1>
+            )}
+            
+            {isHomeLoading ? (
+              <Skeleton className="h-8 w-2/3 mb-8 bg-primary-foreground/20 rounded-lg" />
+            ) : (
+              <p className="text-xl md:text-2xl mb-8">
+                {subheadline}
+              </p>
+            )}
+
             <Button asChild size="lg" className="text-lg">
               <Link to="/contact">
                 Book Your Adventure
@@ -161,14 +165,21 @@ function Home() {
       <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-serif mb-4">What We Offer {isLoading && '(Loading...)'}</h2>
+            <h2 className="text-5xl font-serif mb-4 flex items-center justify-center gap-2">What We Offer</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Comprehensive ocean experiences designed for every skill level
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {services && services.length >= 4 ? (
+            {isServicesLoading ? (
+              <>
+                <Skeleton className="rounded-lg md:row-span-2 h-[500px] w-full border-2 border-muted" />
+                <Skeleton className="rounded-lg h-[320px] w-full border-2 border-muted" />
+                <Skeleton className="rounded-lg h-[320px] w-full border-2 border-muted" />
+                <Skeleton className="rounded-lg h-[240px] md:col-span-2 w-full border-2 border-muted" />
+              </>
+            ) : services && services.length > 0 ? (
               services.slice(0, 4).map((service: any, index: number) => {
                 // Determine styling based on position in grid
                 const styleMaps = [
@@ -248,88 +259,7 @@ function Home() {
                   </div>
                 );
               })
-            ) : (
-              <>
-                {/* Fallback Static Masonry Mapping */}
-                <div className="relative group overflow-hidden rounded-lg md:row-span-2 h-[500px] md:h-auto">
-                  <ImageWithFallback
-                    src="https://images.unsplash.com/photo-1602144586093-06c14ac4fe4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cm9waWNhbCUyMGZpc2glMjBjb3JhbCUyMHJlZWZ8ZW58MXx8fHwxNzc1NDY3MzcwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                    alt="Coral reef diving"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-accent-foreground via-accent-foreground/60 to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-8 text-primary-foreground">
-                    <h3 className="font-serif text-3xl mb-3">Guided Diving Sessions</h3>
-                    <p className="text-lg mb-4 text-primary-foreground/90">
-                      Explore vibrant coral reefs and encounter marine life with expert dive masters
-                    </p>
-                    <div className="flex items-center gap-4 text-sm">
-                      <span className="bg-primary/20 px-3 py-1 rounded-full">3-4 hours</span>
-                      <span className="bg-primary/20 px-3 py-1 rounded-full">From $120</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative group overflow-hidden rounded-lg h-[320px]">
-                  <ImageWithFallback
-                    src="https://images.unsplash.com/photo-1563967983-ad006a6fd00f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY3ViYSUyMGRpdmluZyUyMGluc3RydWN0b3IlMjBsZXNzb258ZW58MXx8fHwxNzc1NDg3ODU5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                    alt="Diving instructor teaching"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-accent-foreground via-accent-foreground/50 to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-primary-foreground">
-                    <h3 className="font-serif text-2xl mb-2">PADI Certification</h3>
-                    <p className="mb-3 text-primary-foreground/90">
-                      Professional training from beginner to advanced levels
-                    </p>
-                    <div className="flex items-center gap-3 text-sm">
-                      <span className="bg-primary/20 px-3 py-1 rounded-full">3-4 days</span>
-                      <span className="bg-primary/20 px-3 py-1 rounded-full">From $450</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative group overflow-hidden rounded-lg h-[320px]">
-                  <ImageWithFallback
-                    src="https://images.unsplash.com/photo-1644238068169-c016acf11403?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmaXNoaW5nJTIwYm9hdCUyMG9jZWFuJTIwc3Vuc2V0fGVufDF8fHx8MTc3NTQ4Nzg1NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                    alt="Fishing boat at sunset"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-accent-foreground via-accent-foreground/50 to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-primary-foreground">
-                    <h3 className="font-serif text-2xl mb-2">Deep Sea Fishing</h3>
-                    <p className="mb-3 text-primary-foreground/90">
-                      Experience the thrill of offshore fishing expeditions
-                    </p>
-                    <div className="flex items-center gap-3 text-sm">
-                      <span className="bg-primary/20 px-3 py-1 rounded-full">Half/Full day</span>
-                      <span className="bg-primary/20 px-3 py-1 rounded-full">From $200</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative group overflow-hidden rounded-lg h-[240px] md:col-span-2">
-                  <ImageWithFallback
-                    src="https://images.unsplash.com/photo-1647222887233-f933843cf5af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY3ViYSUyMGRpdmluZyUyMGVxdWlwbWVudCUyMGdlYXJ8ZW58MXx8fHwxNzc1NDg3ODU1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                    alt="Scuba diving equipment"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-accent-foreground via-accent-foreground/60 to-transparent"></div>
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="p-8 text-primary-foreground max-w-2xl">
-                      <h3 className="font-serif text-3xl mb-3">Equipment Rentals</h3>
-                      <p className="text-lg mb-4 text-primary-foreground/90">
-                        High-quality, well-maintained scuba gear for independent divers
-                      </p>
-                      <div className="flex items-center gap-4 text-sm">
-                        <span className="bg-primary/20 px-3 py-1 rounded-full">Daily or weekly</span>
-                        <span className="bg-primary/20 px-3 py-1 rounded-full">From $40/day</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </>
-            )}
+            ) : null}
           </div>
 
           <div className="text-center mt-12">
@@ -361,3 +291,4 @@ function Home() {
     </div>
   );
 }
+

@@ -22,6 +22,14 @@ import { Skeleton } from "../components/ui/skeleton";
 
 export const Route = createFileRoute('/pricing')({
   component: Pricing,
+  head: () => ({
+    meta: [
+      { title: 'Pricing & Packages | Wild Turtle Scuba Club Ltd.' },
+      { name: 'description', content: 'Transparent pricing for all our diving courses, gear rentals, and fishing services.' },
+      { property: 'og:title', content: 'Pricing & Packages | Wild Turtle Scuba Club Ltd.' },
+      { property: 'og:description', content: 'Transparent pricing for all our diving courses, gear rentals, and fishing services.' }
+    ]
+  })
 })
 
 
@@ -42,30 +50,6 @@ function Pricing() {
   );
 
 
-
-  const fallbackPricingData = [
-    {
-      category: "Diving Sessions",
-      type: "general",
-      items: [
-        {
-          name: "Single Dive",
-          price: "$120",
-          rate: "Per dive",
-          includes: ["Equipment rental", "Professional guide", "Safety briefing", "Boat transportation"],
-          participants: "Min 2, Max 6"
-        },
-        {
-          name: "Two-Tank Dive",
-          price: "$200",
-          rate: "Per dive",
-          includes: ["Equipment rental", "Professional guide", "Two dive sites", "Boat transportation", "Snacks and drinks"],
-          participants: "Min 2, Max 6",
-          popular: true
-        }
-      ]
-    }
-  ];
 
   // We map the retrieved sanity records dynamically to categories
   const formatPrice = (val: any, fallback: string) => {
@@ -92,8 +76,6 @@ function Pricing() {
       }))
     });
   }
-
-
 
   if (rentals && rentals.length > 0) {
     dynamicPricingData.push({
@@ -124,9 +106,7 @@ function Pricing() {
     });
   }
 
-  const finalPricingData = dynamicPricingData.length > 0 ? dynamicPricingData : fallbackPricingData;
-
-
+  const finalPricingData = dynamicPricingData;
   const packages = [
     {
       name: "Week Long Adventure",

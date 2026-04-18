@@ -5,6 +5,14 @@ import { AlertCircle } from "lucide-react";
 
 export const Route = createFileRoute('/disclaimer')({
   component: Disclaimer,
+  head: () => ({
+    meta: [
+      { title: 'Disclaimer | Wild Turtle Scuba Club Ltd.' },
+      { name: 'description', content: 'Important information about our services and liability at Wild Turtle Scuba Club Ltd.' },
+      { property: 'og:title', content: 'Disclaimer | Wild Turtle Scuba Club Ltd.' },
+      { property: 'og:description', content: 'Important information about our services and liability at Wild Turtle Scuba Club Ltd.' }
+    ]
+  })
 })
 
 
