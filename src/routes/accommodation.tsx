@@ -121,9 +121,9 @@ function Accommodation() {
                 Our team can help you find the perfect place to stay. Let us know your ideas, comfort range, and price, and we will be extremely happy to help personalize your stay.
               </p>
               <Button asChild size="lg" className="rounded-full px-10 h-14 text-lg">
-                <RouterLink to="/contact">
+                <a href="#footer">
                   Contact Us for Assistance
-                </RouterLink>
+                </a>
               </Button>
             </CardContent>
           </Card>

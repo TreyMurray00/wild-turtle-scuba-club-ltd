@@ -4,12 +4,14 @@ import {
   Scripts,
   createRootRouteWithContext,
   useLocation,
+  Link,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { Navigation } from '../components/Navigation'
 import { ScrollToTop } from '../components/ScrollToTop'
-import { Mail, Phone, MapPin } from "lucide-react"
+import { Mail, Phone, MapPin, Anchor } from "lucide-react"
+import { Button } from '../components/ui/button'
 
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import appCss from '../styles.css?url'
@@ -18,6 +20,26 @@ import slickThemeCss from "slick-carousel/slick/slick-theme.css?url"
 
 interface MyRouterContext {
   queryClient: QueryClient
+}
+
+function NotFound() {
+  return (
+    <div className="flex flex-col items-center justify-center py-32 px-4 text-center">
+      <div className="bg-muted size-24 rounded-full flex items-center justify-center mb-6">
+        <Anchor className="size-12 text-muted-foreground" />
+      </div>
+      <h1 className="text-6xl font-serif mb-4">404</h1>
+      <h2 className="text-3xl font-serif mb-6">Lost at Sea</h2>
+      <p className="text-xl text-muted-foreground max-w-md mx-auto mb-8">
+        We couldn't find the page you're looking for. It might have drifted away or never existed.
+      </p>
+      <Button asChild size="lg">
+        <Link to="/">
+          Return to Surface
+        </Link>
+      </Button>
+    </div>
+  )
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
@@ -33,6 +55,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       { rel: 'stylesheet', href: slickThemeCss },
     ],
   }),
+  notFoundComponent: NotFound,
   shellComponent: RootDocument,
 })
 
@@ -54,7 +77,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <main className="flex-1">
               {children}
             </main>
-            <footer className="bg-accent-foreground text-primary-foreground py-12">
+            <footer id="footer" className="bg-accent-foreground text-primary-foreground py-12">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                   {/* Contact Info */}
@@ -87,7 +110,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                         <a href="/about" className="hover:text-primary transition-colors">About</a>
                       </li>
                       <li>
-                        <a href="/contact" className="hover:text-primary transition-colors">Contact</a>
+                        <a href="#footer" className="hover:text-primary transition-colors">Contact</a>
                       </li>
                     </ul>
                   </div>

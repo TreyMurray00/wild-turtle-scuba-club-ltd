@@ -12,7 +12,7 @@ export function Navigation() {
     { path: "/", label: "Home" },
     { path: "/pricing", label: "Pricing" },
     { path: "/about", label: "About" },
-    { path: "/contact", label: "Contact" },
+    { path: "#footer", label: "Contact" },
   ];
 
   const isActive = (path: string) => {
@@ -36,15 +36,27 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`transition-colors hover:text-primary ${
-                  isActive(link.path) ? "text-primary" : ""
-                }`}
-              >
-                {link.label}
-              </Link>
+              link.path.startsWith("#") ? (
+                <a
+                  key={link.path}
+                  href={link.path}
+                  className={`transition-colors hover:text-primary ${
+                    isActive(link.path) ? "text-primary" : ""
+                  }`}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`transition-colors hover:text-primary ${
+                    isActive(link.path) ? "text-primary" : ""
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
           </div>
 
@@ -64,16 +76,29 @@ export function Navigation() {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-primary/20">
             {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setIsMenuOpen(false)}
-                className={`block py-2 transition-colors hover:text-primary ${
-                  isActive(link.path) ? "text-primary" : ""
-                }`}
-              >
-                {link.label}
-              </Link>
+              link.path.startsWith("#") ? (
+                <a
+                  key={link.path}
+                  href={link.path}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`block py-2 transition-colors hover:text-primary ${
+                    isActive(link.path) ? "text-primary" : ""
+                  }`}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`block py-2 transition-colors hover:text-primary ${
+                    isActive(link.path) ? "text-primary" : ""
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
           </div>
         )}

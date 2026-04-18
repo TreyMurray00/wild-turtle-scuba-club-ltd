@@ -230,7 +230,7 @@ function Pricing() {
                     </Table>
                     <div className="p-6 border-t flex justify-center bg-muted/5">
                       <Button asChild size="lg" className="w-full sm:w-auto min-w-[200px]">
-                        <Link to="/contact">Book Now</Link>
+                        <a href="#footer">Book Now</a>
                       </Button>
                     </div>
                   </div>
@@ -276,7 +276,7 @@ function Pricing() {
                     </Table>
                     <div className="p-6 border-t flex justify-center bg-muted/5">
                       <Button asChild size="lg" className="w-full sm:w-auto min-w-[200px]">
-                        <Link to="/contact">Book Now</Link>
+                        <a href="#footer">Book Now</a>
                       </Button>
                     </div>
                   </div>
@@ -361,7 +361,7 @@ function Pricing() {
                               <div className="text-3xl font-serif text-primary">{item.price}</div>
                             </div>
                             <Button asChild size="lg" className="rounded-full px-8 shrink-0 transition-transform hover:scale-105 active:scale-95 w-full sm:w-auto">
-                              <Link to="/contact">Book Now</Link>
+                              <a href="#footer">Book Now</a>
                             </Button>
                           </div>
                         </CardContent>
@@ -443,9 +443,9 @@ function Pricing() {
                   </div>
 
                   <Button asChild className="w-full" variant={pkg.popular ? "default" : "outline"}>
-                    <Link to="/contact">
+                    <a href="#footer">
                       Book Package
-                    </Link>
+                    </a>
                   </Button>
                 </CardContent>
               </Card>

@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
-import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AccommodationRouteImport } from './routes/accommodation'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -32,11 +31,6 @@ const PricingRoute = PricingRouteImport.update({
 const DisclaimerRoute = DisclaimerRouteImport.update({
   id: '/disclaimer',
   path: '/disclaimer',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccommodationRoute = AccommodationRouteImport.update({
@@ -69,7 +63,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/accommodation': typeof AccommodationRoute
-  '/contact': typeof ContactRoute
   '/disclaimer': typeof DisclaimerRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
@@ -80,7 +73,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/accommodation': typeof AccommodationRoute
-  '/contact': typeof ContactRoute
   '/disclaimer': typeof DisclaimerRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
@@ -92,7 +84,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/accommodation': typeof AccommodationRoute
-  '/contact': typeof ContactRoute
   '/disclaimer': typeof DisclaimerRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
@@ -105,7 +96,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/accommodation'
-    | '/contact'
     | '/disclaimer'
     | '/pricing'
     | '/privacy'
@@ -116,7 +106,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/accommodation'
-    | '/contact'
     | '/disclaimer'
     | '/pricing'
     | '/privacy'
@@ -127,7 +116,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/accommodation'
-    | '/contact'
     | '/disclaimer'
     | '/pricing'
     | '/privacy'
@@ -139,7 +127,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AccommodationRoute: typeof AccommodationRoute
-  ContactRoute: typeof ContactRoute
   DisclaimerRoute: typeof DisclaimerRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -168,13 +155,6 @@ declare module '@tanstack/react-router' {
       path: '/disclaimer'
       fullPath: '/disclaimer'
       preLoaderRoute: typeof DisclaimerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/accommodation': {
@@ -219,7 +199,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AccommodationRoute: AccommodationRoute,
-  ContactRoute: ContactRoute,
   DisclaimerRoute: DisclaimerRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,

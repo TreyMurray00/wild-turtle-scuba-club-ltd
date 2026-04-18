@@ -105,10 +105,10 @@ function Home() {
             )}
 
             <Button asChild size="lg" className="text-lg">
-              <Link to="/contact">
+              <a href="#footer">
                 Book Your Adventure
                 <ArrowRight className="ml-2 size-5" />
-              </Link>
+              </a>
             </Button>
           </div>
         </div>
@@ -281,10 +281,10 @@ function Home() {
             Book your next underwater adventure or fishing trip today
           </p>
           <Button asChild size="lg" variant="default">
-            <Link to="/contact">
+            <a href="#footer">
               Contact Us Now
               <ArrowRight className="ml-2 size-5" />
-            </Link>
+            </a>
           </Button>
         </div>
       </section>
