@@ -10,7 +10,9 @@ const config = defineConfig({
     devtools(),
     tsconfigPaths({ projects: ['./tsconfig.json'] }),
     tailwindcss(),
-    tanstackStart(),
+    tanstackStart({
+      deploymentTarget: 'cloudflare-workers',
+    }),
     viteReact(),
   ],
   build: {
@@ -18,22 +20,20 @@ const config = defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            // Group heavy iconography - known stable split
+            // Group heavy iconography
             if (id.includes('lucide-react')) {
-              return 'lucide-vendor';
+              return 'lucide-vendor'
             }
-            
-            // Isolate Sanity dependencies - very heavy and relatively independent
+
+            // Isolate Sanity dependencies
             if (id.includes('sanity') || id.includes('@sanity/')) {
-               return 'sanity-vendor';
+              return 'sanity-vendor'
             }
 
             // Isolate carousel logic
             if (id.includes('react-slick') || id.includes('slick-carousel')) {
-              return 'carousel-vendor';
+              return 'carousel-vendor'
             }
-            
-            // Do NOT split tanstack or radix here as they often have circular deps with app code
           }
         },
       },
