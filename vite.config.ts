@@ -10,9 +10,7 @@ const config = defineConfig({
     devtools(),
     tsconfigPaths({ projects: ['./tsconfig.json'] }),
     tailwindcss(),
-    tanstackStart({
-      deploymentTarget: 'vercel',
-    }),
+    tanstackStart(),
     viteReact(),
   ],
   build: {
