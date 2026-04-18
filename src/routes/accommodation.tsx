@@ -1,19 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Card, CardContent } from "../components/ui/card";
-import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Link as RouterLink } from "@tanstack/react-router";
-import { Wifi, Coffee, UtensilsCrossed, Wind, MapPin, Star, Waves, Home } from "lucide-react";
+import { ExternalLink, Home, Map } from "lucide-react";
 import { useSanityQuery } from '../hooks/useSanityQuery';
 import { ACCOMMODATION_QUERY } from '../lib/sanity-queries';
 import { urlFor } from '../lib/sanity';
-
+import { Skeleton } from '../components/ui/skeleton';
 
 export const Route = createFileRoute('/accommodation')({
   component: Accommodation,
 })
-
 
 function Accommodation() {
   const { data: accommodationsData, isLoading } = useSanityQuery(
@@ -25,13 +23,9 @@ function Accommodation() {
     {
       id: 1,
       name: "Ocean View Resort",
-      type: "Partner Hotel",
-      rating: 4.5,
-      distance: "0.5 miles from dive center",
-      image: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWFjaCUyMHJlc29ydCUyMG9jZWFuJTIwdmlld3xlbnwxfHx8fDE3NzU0ODc4NjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      amenities: ["Free WiFi", "Pool", "Restaurant", "Beach Access", "Air Conditioning", "Parking"],
-      priceRange: "$$$",
-      description: "Luxurious beachfront resort with stunning ocean views and direct beach access. Perfect for divers seeking comfort and convenience."
+      image: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWFjaCUyMHJlc29ydCUyMG9jZWFuJTIwdmlld3xlbnwxfHx8fDE3NzU0ODc4NjF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      description: "Luxurious beachfront resort with stunning ocean views and direct beach access. Perfect for divers seeking comfort and convenience.",
+      link: "#"
     }
   ];
 
@@ -39,12 +33,7 @@ function Accommodation() {
     ? accommodationsData.map((acc: any, idx: number) => ({
         id: acc._id || idx,
         name: acc.name,
-        type: "Partner Hotel",
-        rating: 5.0,
-        distance: "Local",
-        image: acc.image ? urlFor(acc.image).width(800).url() : "https://images.unsplash.com/photo-1566073771259-6a8506099945?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMHJvb20lMjBiZWFjaHxlbnwxfHx8fDE3NzU0ODc4NjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-        amenities: ["Free WiFi", "Beach Access", "Air Conditioning"],
-        priceRange: "Various",
+        image: acc.image ? urlFor(acc.image).width(800).url() : "https://images.unsplash.com/photo-1566073771259-6a8506099945?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMHJvb20lMjBiZWFjaHxlbnwxfHx8fDE3NzU0ODc4NjF8MA&ixlib=rb-4.1.0&q=80&w=1080",
         description: acc.description,
         link: acc.link
       }))
@@ -53,192 +42,93 @@ function Accommodation() {
   return (
     <div>
       {/* Header */}
-      <section className="bg-gradient-to-br from-accent-foreground to-primary text-primary-foreground py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-serif mb-4">Accommodation {isLoading && '(Loading...)'}</h1>
-          <p className="text-xl max-w-2xl mx-auto">
-            Comfortable places to stay near our dive center
+      <section className="bg-gradient-to-br from-accent-foreground to-primary text-primary-foreground py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/10 z-0"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <Home className="size-16 mx-auto mb-6 text-primary-foreground/80" />
+          <h1 className="text-4xl md:text-5xl font-serif mb-6 tracking-wide">Places to Stay {isLoading && '(Loading...)'}</h1>
+          <p className="text-xl max-w-2xl mx-auto font-light text-primary-foreground/90">
+            Hand-picked recommendations for comfortable lodging near our dive center.
           </p>
         </div>
       </section>
 
       {/* Introduction */}
-      <section className="py-12 bg-card">
+      <section className="py-16 bg-muted/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-lg text-muted-foreground">
-            We've partnered with local hotels and resorts to offer our guests comfortable accommodation 
-            options within easy reach of our dive center. Whether you're looking for budget-friendly lodging 
-            or luxury amenities, we have recommendations to suit every preference and budget.
+          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+            We've carefully researched local hotels, resorts, and guest houses to offer our visiting divers perfectly located accommodation options. Whether you're looking for budget-friendly lodging or luxury amenities, you can find our recommended spots below to suit your preference.
           </p>
         </div>
       </section>
 
       {/* Accommodations List */}
-      <section className="py-16 bg-background">
+      <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {accommodationsList.map((accommodation: any) => (
-              <Card key={accommodation.id} className="overflow-hidden hover:shadow-xl transition-shadow">
-                <ImageWithFallback
-                  src={accommodation.image}
-                  alt={accommodation.name}
-                  className="w-full h-64 object-cover"
-                />
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h3 className="font-serif text-2xl mb-1">
-                        {accommodation.name}
-                      </h3>
-                      <Badge variant="secondary">{accommodation.type}</Badge>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Star className="size-5 text-primary fill-primary" />
-                      <span className="font-serif">{accommodation.rating}</span>
-                    </div>
+          {isLoading ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+               {[1, 2, 3, 4].map(idx => (
+                 <Skeleton key={idx} className="h-[500px] w-full rounded-2xl" />
+               ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              {accommodationsList.map((accommodation: any) => (
+                <Card key={accommodation.id} className="group overflow-hidden hover:shadow-2xl transition-all duration-300 border-border/50 bg-card flex flex-col h-full rounded-2xl">
+                  <div className="relative h-72 overflow-hidden bg-muted">
+                    <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 z-10" />
+                    <ImageWithFallback
+                      src={accommodation.image}
+                      alt={accommodation.name}
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
                   </div>
+                  <CardContent className="p-8 md:p-10 flex flex-col flex-1">
+                    <h3 className="font-serif text-3xl mb-4 text-card-foreground">
+                      {accommodation.name}
+                    </h3>
 
-                  <div className="flex items-center gap-2 text-muted-foreground mb-4">
-                    <MapPin className="size-4" />
-                    <span className="text-sm">{accommodation.distance}</span>
-                  </div>
-
-                  <p className="text-muted-foreground mb-4">
-                    {accommodation.description}
-                  </p>
-
-                  <div className="mb-4">
-                    <h4 className="font-serif mb-2">Amenities:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {accommodation.amenities.map((amenity, index) => (
-                        <Badge key={index} variant="outline" className="text-xs">
-                          {amenity}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-4 border-t">
-                    <div className="text-muted-foreground">
-                      <span className="text-sm">Price Range: </span>
-                      <span className="font-serif text-lg text-card-foreground">
-                        {accommodation.priceRange}
-                      </span>
-                    </div>
-                    {accommodation.link && (
-                      <Button asChild>
-                        <a href={accommodation.link} target="_blank" rel="noreferrer">View Site</a>
-                      </Button>
+                    {accommodation.description && (
+                      <p className="text-muted-foreground text-lg leading-relaxed mb-8 flex-1 whitespace-pre-wrap">
+                        {accommodation.description}
+                      </p>
                     )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+
+                    <div className="mt-auto pt-6 border-t border-border/60">
+                      <Button asChild size="lg" className="w-full sm:w-auto rounded-full">
+                        <a href={accommodation.link || "#"} target="_blank" rel="noreferrer" className="flex items-center gap-2 justify-center">
+                          <span>Visit Website</span>
+                          <ExternalLink className="size-4" />
+                        </a>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Key Amenities Icons Section */}
-      <section className="py-16 bg-muted">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-serif text-center mb-12">
-            Common Amenities
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="bg-accent size-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Wifi className="size-8 text-accent-foreground" />
-              </div>
-              <p className="font-serif">Free WiFi</p>
-            </div>
-            <div className="text-center">
-              <div className="bg-accent size-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Coffee className="size-8 text-accent-foreground" />
-              </div>
-              <p className="font-serif">Breakfast</p>
-            </div>
-            <div className="text-center">
-              <div className="bg-accent size-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Wind className="size-8 text-accent-foreground" />
-              </div>
-              <p className="font-serif">Air Conditioning</p>
-            </div>
-            <div className="text-center">
-              <div className="bg-accent size-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Waves className="size-8 text-accent-foreground" />
-              </div>
-              <p className="font-serif">Beach Access</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Booking Information */}
-      <section className="py-16 bg-card">
+      {/* Booking Help Action Box */}
+      <section className="py-24 bg-primary/5 border-t border-primary/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Card className="bg-accent">
-            <CardContent className="p-8 text-center">
-              <Home className="size-12 mx-auto mb-4 text-accent-foreground" />
-              <h2 className="text-3xl font-serif mb-4">Need Help with Accommodation?</h2>
-              <p className="text-lg mb-6 text-muted-foreground">
-                Our team can help you find the perfect place to stay and may be able to secure 
-                special rates for our diving guests. Contact us for personalized recommendations 
-                and booking assistance.
+          <Card className="bg-background shadow-xl rounded-3xl overflow-hidden border-primary/20 relative">
+            <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
+              <Map className="w-64 h-64 text-primary" />
+            </div>
+            <CardContent className="p-10 md:p-16 text-center relative z-10">
+              <h2 className="text-4xl font-serif mb-6 text-foreground">Need Help Deciding?</h2>
+              <p className="text-xl mb-10 text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                Our team can help you find the perfect place to stay. Let us know your ideas, comfort range, and price, and we will be extremely happy to help personalize your stay.
               </p>
-              <Button asChild size="lg">
+              <Button asChild size="lg" className="rounded-full px-10 h-14 text-lg">
                 <RouterLink to="/contact">
-                  Contact Us for Booking Help
+                  Contact Us for Assistance
                 </RouterLink>
               </Button>
             </CardContent>
           </Card>
-        </div>
-      </section>
-
-      {/* Additional Information */}
-      <section className="py-16 bg-background">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-serif text-center mb-8">
-            Good to Know
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardContent className="p-6">
-                <h3 className="font-serif text-xl mb-3">Transportation</h3>
-                <p className="text-muted-foreground">
-                  We offer complimentary pickup and drop-off service from most local accommodations 
-                  for guests participating in our dive trips.
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
-                <h3 className="font-serif text-xl mb-3">Package Deals</h3>
-                <p className="text-muted-foreground">
-                  Ask about our diving + accommodation packages for the best value. We offer special 
-                  rates when you book multiple days of diving.
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
-                <h3 className="font-serif text-xl mb-3">Seasonal Availability</h3>
-                <p className="text-muted-foreground">
-                  Accommodation prices and availability vary by season. We recommend booking well in 
-                  advance during peak diving season (June-September).
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
-                <h3 className="font-serif text-xl mb-3">Group Bookings</h3>
-                <p className="text-muted-foreground">
-                  Planning a group diving trip? We can arrange group rates and coordinate bookings 
-                  to ensure your party stays together.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </section>
     </div>

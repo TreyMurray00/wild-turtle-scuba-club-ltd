@@ -33,8 +33,14 @@ export const RENTALS_QUERY = `*[_type == "rental"] {
 
 export const ABOUT_QUERY = `*[_type == "about"][0] {
   _id,
-  about,
-  images
+  pageTitle,
+  subtitle,
+  instructorName,
+  instructorRole,
+  profileImage,
+  bio,
+  certifications,
+  stats
 }`;
 
 export const ACCOMMODATION_QUERY = `*[_type == "accomodation"] {

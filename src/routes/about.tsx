@@ -1,17 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { Award, Heart, Shield, Users } from "lucide-react";
+import { Award, Heart, Shield, Users, CheckCircle2 } from "lucide-react";
 import { Card, CardContent } from "../components/ui/card";
-import { Badge } from "../components/ui/badge";
 import { useSanityQuery } from '../hooks/useSanityQuery';
 import { ABOUT_QUERY } from '../lib/sanity-queries';
 import { urlFor } from '../lib/sanity';
 
-
 export const Route = createFileRoute('/about')({
   component: About,
 })
-
 
 function About() {
   const { data: aboutData, isLoading } = useSanityQuery(
@@ -24,55 +21,94 @@ function About() {
       {/* Header */}
       <section className="bg-gradient-to-br from-accent-foreground to-primary text-primary-foreground py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-serif mb-4">About Us {isLoading && '(Loading...)'}</h1>
+          <h1 className="text-5xl font-serif mb-4">
+            {aboutData?.pageTitle || 'Meet Your Instructor'} {isLoading && '(Loading...)'}
+          </h1>
           <p className="text-xl max-w-2xl mx-auto">
-            Your trusted partner for unforgettable ocean adventures since 2005
+            {aboutData?.subtitle || 'Your trusted guide for unforgettable ocean adventures'}
           </p>
         </div>
       </section>
 
-      {/* Our Story */}
+      {/* Instructor Profile & Bio */}
       <section className="py-16 bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-serif mb-6">Our Story</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div className="space-y-6">
+              <h2 className="text-4xl font-serif text-foreground">
+                {aboutData?.instructorName || 'Riche Louis'}
+              </h2>
+              <h3 className="text-2xl text-muted-foreground font-medium">
+                {aboutData?.instructorRole || 'Lead Instructor & Founder'}
+              </h3>
+              
               <div className="space-y-4 text-muted-foreground text-lg whitespace-pre-wrap">
-                {aboutData?.about ? (
-                  <p>{aboutData.about}</p>
+                {aboutData?.bio ? (
+                  <p>{aboutData.bio}</p>
                 ) : (
                   <>
                     <p>
-                      Wild Turtle Scuba Club Ltd. was founded over 20 years ago by a group of passionate
-                      divers and marine conservationists who wanted to share their love of the ocean with others.
-                      What started as a small diving club has grown into a premier scuba and fishing service.
+                      With over 20 years of experience exploring the depths, I founded Wild Turtle Scuba Club Ltd. 
+                      to share my passion for the ocean. What started as a personal journey has grown into a lifelong mission 
+                      to provide safe, thrilling, and environmentally conscious diving and fishing experiences.
                     </p>
                     <p>
-                      Our name reflects our commitment to marine conservation, particularly the protection
-                      of sea turtles in our local waters. Today, we pride ourselves on offering safe, exciting,
-                      and environmentally responsible experiences for adventurers of all skill levels.
-                    </p>
-                    <p>
-                      Whether you're taking your first breath underwater or you're an experienced
-                      diver seeking new challenges, we're here to make your ocean dreams a reality while
-                      protecting the marine ecosystems we love.
+                      I believe every dive is an opportunity to learn and grow, not just as a diver but as an 
+                      advocate for our marine ecosystems. Whether you're taking your first breath underwater or looking 
+                      to refine advanced skills, my goal is to make every adventure memorable.
                     </p>
                   </>
                 )}
               </div>
+
+              {/* Certifications (if any available) */}
+              {(aboutData?.certifications && aboutData.certifications.length > 0) || !aboutData ? (
+                <div className="pt-6 border-t border-border mt-8">
+                  <h4 className="text-xl font-serif mb-4 flex items-center gap-2">
+                    <Award className="w-5 h-5 text-accent-foreground" />
+                    Certifications & Qualifications
+                  </h4>
+                  <ul className="space-y-2">
+                    {aboutData?.certifications ? (
+                      aboutData.certifications.map((cert: string, idx: number) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
+                          <span className="text-muted-foreground">{cert}</span>
+                        </li>
+                      ))
+                    ) : (
+                      <>
+                        <li className="flex items-start gap-2">
+                          <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
+                          <span className="text-muted-foreground">PADI Master Scuba Diver Trainer (MSDT)</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
+                          <span className="text-muted-foreground">Emergency First Response Instructor</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
+                          <span className="text-muted-foreground">USCG Licensed Captain</span>
+                        </li>
+                      </>
+                    )}
+                  </ul>
+                </div>
+              ) : null}
             </div>
-            <div>
-              {aboutData?.images && aboutData.images.length > 0 ? (
+
+            <div className="sticky top-6">
+              {aboutData?.profileImage ? (
                 <img
-                  src={urlFor(aboutData.images[0]).width(800).url()}
-                  alt="About Us"
-                  className="w-full h-96 object-cover rounded-lg shadow-lg"
+                  src={urlFor(aboutData.profileImage).width(800).url()}
+                  alt={aboutData.instructorName || "Instructor"}
+                  className="w-full aspect-[3/4] md:aspect-square lg:aspect-[3/4] object-cover rounded-xl shadow-xl"
                 />
               ) : (
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1628371190872-df8c9dee1093?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY3ViYSUyMGRpdmVyJTIwdW5kZXJ3YXRlciUyMG9jZWFufGVufDF8fHx8MTc3NTQ4Nzg1NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  src="https://images.unsplash.com/photo-1628371190872-df8c9dee1093?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY3ViYSUyMGRpdmVyJTIwdW5kZXJ3YXRlciUyMG9jZWFufGVufDF8fHx8MTc3NTQ4Nzg1NXww&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="Scuba diver"
-                  className="w-full h-96 object-cover rounded-lg shadow-lg"
+                  className="w-full aspect-[3/4] md:aspect-square lg:aspect-[3/4] object-cover rounded-xl shadow-xl border-4 border-muted"
                 />
               )}
             </div>
@@ -80,11 +116,47 @@ function About() {
         </div>
       </section>
 
-      {/* Values */}
+      {/* Stats Section */}
+      <section className="py-16 bg-accent">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {aboutData?.stats && aboutData.stats.length > 0 ? (
+              aboutData.stats.map((stat: any, idx: number) => (
+                <div key={idx}>
+                  <div className="text-4xl md:text-5xl font-serif mb-2 text-accent-foreground">{stat.value}</div>
+                  <div className="text-muted-foreground">{stat.label}</div>
+                </div>
+              ))
+            ) : (
+              // Fallback default stats
+              <>
+                <div>
+                  <div className="text-4xl md:text-5xl font-serif mb-2 text-accent-foreground">20+</div>
+                  <div className="text-muted-foreground">Years Experience</div>
+                </div>
+                <div>
+                  <div className="text-4xl md:text-5xl font-serif mb-2 text-accent-foreground">5000+</div>
+                  <div className="text-muted-foreground">Logged Dives</div>
+                </div>
+                <div>
+                  <div className="text-4xl md:text-5xl font-serif mb-2 text-accent-foreground">500+</div>
+                  <div className="text-muted-foreground">Certified Students</div>
+                </div>
+                <div>
+                  <div className="text-4xl md:text-5xl font-serif mb-2 text-accent-foreground">100%</div>
+                  <div className="text-muted-foreground">Safety Record</div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Values (Kept from original) */}
       <section className="py-16 bg-muted">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-serif text-center mb-12">
-            Our Values
+            Our Core Values
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <Card>
@@ -142,74 +214,6 @@ function About() {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-16 bg-card">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-serif text-center mb-4">
-            Our Team
-          </h2>
-          <p className="text-center text-muted-foreground mb-12 text-lg max-w-2xl mx-auto">
-            Meet our experienced instructors and guides who are passionate about sharing the
-            wonders of the ocean with you
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card>
-              <CardContent className="p-6 text-center">
-                <div className="bg-muted size-32 rounded-full mx-auto mb-4"></div>
-                <h3 className="font-serif text-xl mb-1">Captain Mike Torres</h3>
-                <Badge variant="secondary" className="mb-2">Lead Instructor</Badge>
-                <p className="text-muted-foreground">
-                  PADI Master Instructor with 25+ years of diving experience
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6 text-center">
-                <div className="bg-muted size-32 rounded-full mx-auto mb-4"></div>
-                <h3 className="font-serif text-xl mb-1">Sarah Chen</h3>
-                <Badge variant="secondary" className="mb-2">Diving Instructor</Badge>
-                <p className="text-muted-foreground">
-                  Specializes in beginner training and marine biology education
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6 text-center">
-                <div className="bg-muted size-32 rounded-full mx-auto mb-4"></div>
-                <h3 className="font-serif text-xl mb-1">Captain James Rodriguez</h3>
-                <Badge variant="secondary" className="mb-2">Fishing Guide</Badge>
-                <p className="text-muted-foreground">
-                  Expert angler with deep knowledge of local fishing spots
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-accent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl md:text-5xl font-serif mb-2 text-accent-foreground">20+</div>
-              <div className="text-muted-foreground">Years Experience</div>
-            </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-serif mb-2 text-accent-foreground">5000+</div>
-              <div className="text-muted-foreground">Happy Customers</div>
-            </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-serif mb-2 text-accent-foreground">50+</div>
-              <div className="text-muted-foreground">Dive Sites</div>
-            </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-serif mb-2 text-accent-foreground">100%</div>
-              <div className="text-muted-foreground">Safety Record</div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
