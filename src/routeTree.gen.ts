@@ -23,42 +23,42 @@ const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any).lazy(() => import('./routes/privacy.lazy').then((d) => d.Route))
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any).lazy(() => import('./routes/pricing.lazy').then((d) => d.Route))
 const DivesitesRoute = DivesitesRouteImport.update({
   id: '/divesites',
   path: '/divesites',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any).lazy(() => import('./routes/divesites.lazy').then((d) => d.Route))
 const DisclaimerRoute = DisclaimerRouteImport.update({
   id: '/disclaimer',
   path: '/disclaimer',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any).lazy(() => import('./routes/disclaimer.lazy').then((d) => d.Route))
 const AccommodationRoute = AccommodationRouteImport.update({
   id: '/accommodation',
   path: '/accommodation',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any).lazy(() => import('./routes/accommodation.lazy').then((d) => d.Route))
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 const StudioSplatRoute = StudioSplatRouteImport.update({
   id: '/studio/$',
   path: '/studio/$',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any).lazy(() => import('./routes/studio.$.lazy').then((d) => d.Route))
 const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
   id: '/demo/tanstack-query',
   path: '/demo/tanstack-query',
