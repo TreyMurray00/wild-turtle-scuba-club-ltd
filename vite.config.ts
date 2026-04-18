@@ -11,7 +11,7 @@ const config = defineConfig({
     tsconfigPaths({ projects: ['./tsconfig.json'] }),
     tailwindcss(),
     tanstackStart({
-      deploymentTarget: 'cloudflare-workers',
+      deploymentTarget: 'vercel',
     }),
     viteReact(),
   ],
