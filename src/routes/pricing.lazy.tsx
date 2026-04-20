@@ -222,45 +222,47 @@ function Pricing() {
                     </div>
                   </div>
                 ) : category.type === 'general' ? (
-                  <div className="bg-card rounded-lg border shadow-sm overflow-hidden flex flex-col">
-                    <Table className="table-fixed">
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground px-4 sm:px-6 w-2/5">Session</TableHead>
-                          <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground text-center">Rate</TableHead>
-                          <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground text-center w-1/4">Includes</TableHead>
-                          <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground text-right px-4 sm:px-6 w-1/5">Price</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {category.items.map((item: any, itemIndex: number) => (
-                          <TableRow key={itemIndex}>
-                            <TableCell className="font-medium px-4 sm:px-6">
-                              <div className="flex items-center gap-4">
-                                <div className="size-5 bg-primary flex-shrink-0 rounded flex items-center justify-center text-primary-foreground">
-                                  <Check className="size-3" strokeWidth={3} />
-                                </div>
-                                <span className="text-base">{item.name}</span>
-                                {item.popular && (
-                                  <Badge className="bg-primary hover:bg-primary text-[10px] px-1.5 py-0 h-4">Popular</Badge>
-                                )}
-                              </div>
-                            </TableCell>
-                            <TableCell className="text-center">
-                              <Badge className="bg-primary-foreground border-none hover:bg-primary-foreground text-primary font-medium rounded-full px-3 py-0.5 whitespace-nowrap">
-                                {item.rate}
-                              </Badge>
-                            </TableCell>
-                            <TableCell className="text-center text-sm text-muted-foreground">
-                              <div className="max-w-[150px] truncate mx-auto" title={item.includes.join(', ')}>
-                                {item.includes.join(', ')}
-                              </div>
-                            </TableCell>
-                            <TableCell className="font-medium text-lg text-primary whitespace-nowrap text-right px-4 sm:px-6">{item.price}</TableCell>
+                  <div className="bg-card rounded-lg border shadow-sm flex flex-col">
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground px-4 sm:px-6 min-w-[200px]">Session</TableHead>
+                            <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground text-center min-w-[100px]">Rate</TableHead>
+                            <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground text-center min-w-[150px]">Includes</TableHead>
+                            <TableHead className="text-sm font-bold tracking-widest uppercase text-muted-foreground text-right px-4 sm:px-6 min-w-[100px]">Price</TableHead>
                           </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                        </TableHeader>
+                        <TableBody>
+                          {category.items.map((item: any, itemIndex: number) => (
+                            <TableRow key={itemIndex}>
+                              <TableCell className="font-medium px-4 sm:px-6">
+                                <div className="flex items-center gap-4">
+                                  <div className="size-5 bg-primary flex-shrink-0 rounded flex items-center justify-center text-primary-foreground">
+                                    <Check className="size-3" strokeWidth={3} />
+                                  </div>
+                                  <span className="text-base">{item.name}</span>
+                                  {item.popular && (
+                                    <Badge className="bg-primary hover:bg-primary text-[10px] px-1.5 py-0 h-4">Popular</Badge>
+                                  )}
+                                </div>
+                              </TableCell>
+                              <TableCell className="text-center">
+                                <Badge className="bg-primary-foreground border-none hover:bg-primary-foreground text-primary font-medium rounded-full px-3 py-0.5 whitespace-nowrap">
+                                  {item.rate}
+                                </Badge>
+                              </TableCell>
+                              <TableCell className="text-center text-sm text-muted-foreground">
+                                <div className="max-w-[150px] truncate mx-auto" title={item.includes.join(', ')}>
+                                  {item.includes.join(', ')}
+                                </div>
+                              </TableCell>
+                              <TableCell className="font-medium text-lg text-primary whitespace-nowrap text-right px-4 sm:px-6">{item.price}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
                     <div className="p-6 border-t flex justify-center bg-muted/5">
                       <Button asChild size="lg" className="w-full sm:w-auto min-w-[200px]">
                         <a href="#footer">Book Now</a>
@@ -375,7 +377,7 @@ function Pricing() {
           <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto">
             We can assist with your accommodation needs. Let us know your ideas, comfort range and price and we will be happy to help. Here is a list of links to hotels and guest houses that we recommend.
           </p>
-          <Button asChild size="lg" className="rounded-full shadow-md text-base px-8 transition-transform hover:scale-105 active:scale-95">
+          <Button asChild className="rounded-full shadow-md text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 h-auto sm:h-12 border-none bg-primary text-primary-foreground transition-transform hover:scale-105 active:scale-95">
             <Link to="/accommodation">View Recommended Accommodations</Link>
           </Button>
         </div>

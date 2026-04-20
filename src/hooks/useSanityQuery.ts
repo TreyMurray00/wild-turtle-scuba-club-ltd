@@ -17,6 +17,8 @@ export function useSanityQuery<T = any>(
 ) {
   return useQuery({
     queryKey,
+    gcTime: 1000 * 60 * 60 * 24,
+    staleTime: 1000 * 60 * 60 * 24,
     queryFn: async () => {
       const result = await sanityClient.fetch<T>(query, params);
       return result;

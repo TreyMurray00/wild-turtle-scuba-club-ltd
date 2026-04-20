@@ -27,7 +27,7 @@ function Home() {
     autoplaySpeed: 5000,
     fade: true,
     pauseOnHover: false,
-    arrows: true,
+    arrows: false,
   };
 
   const { data: homeData, isLoading: isHomeLoading } = useSanityQuery(
