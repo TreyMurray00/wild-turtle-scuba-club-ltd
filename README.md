@@ -17,6 +17,16 @@ To build this application for production:
 npm run build
 ```
 
+To build this application for production and run it in a Docker container:
+
+```bash
+docker build -t wild-turtle-scuba .
+```
+
+```bash
+docker run -p 80:3000 wild-turtle-scuba
+```
+
 ## Testing
 
 This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
