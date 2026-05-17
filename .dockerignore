@@ -1,0 +1,10 @@
+node_modules
+dist
+.output
+.vercel
+.wrangler
+.tanstack
+.git
+.vscode
+npm-debug.log
+README.md
