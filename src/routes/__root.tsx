@@ -137,6 +137,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                         <a href="/divesites" className="hover:text-primary transition-colors">Dive Sites</a>
                       </li>
                       <li>
+                        <a href="/gallery" className="hover:text-primary transition-colors">Gallery</a>
+                      </li>
+                      <li>
                         <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
                       </li>
                       <li>

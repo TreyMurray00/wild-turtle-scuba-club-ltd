@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as DivesitesRouteImport } from './routes/divesites'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as AccommodationRouteImport } from './routes/accommodation'
@@ -29,6 +30,11 @@ const PricingRoute = PricingRouteImport.update({
   path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/pricing.lazy').then((d) => d.Route))
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/gallery.lazy').then((d) => d.Route))
 const DivesitesRoute = DivesitesRouteImport.update({
   id: '/divesites',
   path: '/divesites',
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/accommodation': typeof AccommodationRoute
   '/disclaimer': typeof DisclaimerRoute
   '/divesites': typeof DivesitesRoute
+  '/gallery': typeof GalleryRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
@@ -82,6 +89,7 @@ export interface FileRoutesByTo {
   '/accommodation': typeof AccommodationRoute
   '/disclaimer': typeof DisclaimerRoute
   '/divesites': typeof DivesitesRoute
+  '/gallery': typeof GalleryRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
@@ -94,6 +102,7 @@ export interface FileRoutesById {
   '/accommodation': typeof AccommodationRoute
   '/disclaimer': typeof DisclaimerRoute
   '/divesites': typeof DivesitesRoute
+  '/gallery': typeof GalleryRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/accommodation'
     | '/disclaimer'
     | '/divesites'
+    | '/gallery'
     | '/pricing'
     | '/privacy'
     | '/demo/tanstack-query'
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/accommodation'
     | '/disclaimer'
     | '/divesites'
+    | '/gallery'
     | '/pricing'
     | '/privacy'
     | '/demo/tanstack-query'
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/accommodation'
     | '/disclaimer'
     | '/divesites'
+    | '/gallery'
     | '/pricing'
     | '/privacy'
     | '/demo/tanstack-query'
@@ -141,6 +153,7 @@ export interface RootRouteChildren {
   AccommodationRoute: typeof AccommodationRoute
   DisclaimerRoute: typeof DisclaimerRoute
   DivesitesRoute: typeof DivesitesRoute
+  GalleryRoute: typeof GalleryRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
@@ -161,6 +174,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/divesites': {
@@ -221,6 +241,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccommodationRoute: AccommodationRoute,
   DisclaimerRoute: DisclaimerRoute,
   DivesitesRoute: DivesitesRoute,
+  GalleryRoute: GalleryRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,

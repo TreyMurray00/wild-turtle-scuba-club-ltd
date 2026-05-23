@@ -8,4 +8,5 @@ import { serviceType } from "./serviceType"
 import { contactType } from "./contactType"
 import { homeType } from "./homeType"
 import { diveType } from "./diveType"
-export const schemaTypes = [aboutType, rentalType, accomodationType, courseType, reviewType, divesiteType, serviceType, contactType, homeType, diveType]
+import { galleryType } from "./galleryType"
+export const schemaTypes = [aboutType, rentalType, accomodationType, courseType, reviewType, divesiteType, serviceType, contactType, homeType, diveType, galleryType]

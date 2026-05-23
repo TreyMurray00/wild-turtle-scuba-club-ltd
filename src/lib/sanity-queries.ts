@@ -74,3 +74,15 @@ export const CONTACT_QUERY = `*[_type == "contact"][0] {
   phone,
   whatsapp
 }`;
+
+export const GALLERY_QUERY = `*[_type == "galleryPhoto"] | order(order asc, _createdAt desc) {
+  _id,
+  title,
+  image,
+  altText,
+  category,
+  description,
+  isFeatured,
+  order
+}`;
+
