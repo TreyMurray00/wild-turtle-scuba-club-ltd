@@ -6,6 +6,7 @@ import { useSanityQuery } from '../hooks/useSanityQuery'
 import { GALLERY_QUERY } from '../lib/sanity-queries'
 import { urlFor } from '../lib/sanity'
 import { X, ZoomIn, ChevronLeft, ChevronRight, Images } from 'lucide-react'
+import { Button } from '../components/ui/button'
 
 export const Route = createLazyFileRoute('/gallery')({
   component: Gallery,
@@ -246,6 +247,23 @@ function Gallery() {
           )}
         </div>
       )}
+      
+      {/* ── CTA Section ── */}
+      <section className="py-16 bg-accent">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl md:text-5xl font-serif text-accent-foreground mb-4">
+            Want to be in our gallery?
+          </h2>
+          <p className="text-lg md:text-xl text-accent-foreground/90 font-sans max-w-2xl mx-auto mb-8">
+            Join us for a dive, fishing trip, or snorkel tour and create your own unforgettable memories.
+          </p>
+          <Button asChild size="lg" className="font-bold px-8 py-3 rounded-lg shadow-md hover:scale-105 transition-all duration-300">
+            <a href="#footer">
+              Book an Experience
+            </a>
+          </Button>
+        </div>
+      </section>
     </div>
   )
 }

@@ -21,16 +21,10 @@ function DiveSites() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative h-[400px] flex items-center justify-center pt-16">
-        <ImageWithFallback
-          src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY3ViYSUyMGRpdmluZyUyMG9jZWFufGVufDF8fHx8MTc3NTQ4Nzg1NXww&ixlib=rb-4.1.0&q=80&w=1080"
-          alt="Coral reef"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-accent-foreground/70"></div>
-        <div className="relative z-10 text-center px-4 w-full max-w-4xl">
-          <h1 className="text-5xl md:text-6xl font-serif text-primary-foreground mb-6">Explore Our Dive Sites</h1>
-          <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-2xl mx-auto">
+      <section className="bg-gradient-to-br from-accent-foreground to-primary text-primary-foreground py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-5xl md:text-6xl font-serif mb-4">Explore Our Dive Sites</h1>
+          <p className="text-xl md:text-2xl max-w-2xl mx-auto text-primary-foreground/90">
             Discover the beauty beneath the waves at our curated selection of pristine diving locations.
           </p>
         </div>
