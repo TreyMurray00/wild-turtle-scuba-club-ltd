@@ -49,6 +49,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
+      { property: 'og:site_name', content: 'Wild Turtle Scuba Club' },
+      { property: 'og:locale', content: 'en_TT' },
       { title: 'Wild Turtle Scuba Club Ltd.' },
     ],
     links: [
@@ -65,11 +68,39 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const isStudio = location.pathname.startsWith('/studio');
   const { data: contact } = useSanityQuery(['sanity', 'contact'], CONTACT_QUERY, {}, { enabled: !isStudio });
+  const businessSchema = {
+    '@context': 'https://schema.org',
+    '@type': ['LocalBusiness', 'SportsActivityLocation'],
+    name: 'Wild Turtle Scuba Club Ltd.',
+    description: 'Scuba diving, dive trips, equipment rental and PADI certification courses in Castara, Tobago.',
+    url: 'https://www.new.divingintobago.com/',
+    email: contact?.email || undefined,
+    telephone: contact?.phone || undefined,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Depot Road',
+      addressLocality: 'Castara',
+      addressRegion: 'Tobago',
+      addressCountry: 'TT',
+    },
+    areaServed: [
+      { '@type': 'City', name: 'Castara' },
+      { '@type': 'AdministrativeArea', name: 'Tobago' },
+      { '@type': 'Country', name: 'Trinidad and Tobago' },
+    ],
+    knowsAbout: ['Scuba diving in Tobago', 'PADI certification courses', 'Tobago dive sites'],
+  };
 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        {!isStudio && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }}
+          />
+        )}
       </head>
       <body className="font-sans antialiased [overflow-wrap:anywhere]">
         {isStudio ? (

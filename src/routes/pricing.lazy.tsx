@@ -96,12 +96,10 @@ function Pricing() {
   const finalPricingData = dynamicPricingData;
   const packages = [
     {
-      name: "Week Long Adventure",
-      price: "$950",
-      savings: "Save $150",
+      name: "Sample Seven-Day Dive Package",
       includes: ["5 two-tank dives", "Equipment rental for full week", "1 night dive included", "Accommodation assistance"],
-      ideal: "Best value for extended trips",
-      popular: true
+      ideal: "Use this as a starting point—we will tailor the dives, equipment, accommodation support and pace of your trip to suit you.",
+      popular: false
     }
   ];
 
@@ -112,9 +110,9 @@ function Pricing() {
       {/* Header */}
       <section className="bg-gradient-to-br from-accent-foreground to-primary text-primary-foreground py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-serif mb-4">Pricing {isLoading && "(Loading...)"}</h1>
+          <h1 className="text-5xl font-serif mb-4">Pricing</h1>
           <p className="text-xl max-w-2xl mx-auto">
-            Transparent pricing for all our diving and fishing services
+            Browse scuba diving, equipment rental and PADI course options from our Castara, Tobago dive centre. Contact us for availability and help choosing the right experience.
           </p>
         </div>
       </section>
@@ -365,34 +363,16 @@ function Pricing() {
         </div>
       </section>
 
-      {/* Accommodation Notice */}
-      <section className="py-16 bg-primary/5 border-y border-primary/10">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex justify-center mb-6">
-             <div className="bg-primary/10 p-4 rounded-full">
-               <Home className="size-10 text-primary" />
-             </div>
-          </div>
-          <h2 className="text-3xl font-serif mb-4 text-foreground">Need a place to stay?</h2>
-          <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto">
-            We can assist with your accommodation needs. Let us know your ideas, comfort range and price and we will be happy to help. Here is a list of links to hotels and guest houses that we recommend.
-          </p>
-          <Button asChild className="rounded-full shadow-md text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 h-auto sm:h-12 border-none bg-primary text-primary-foreground transition-transform hover:scale-105 active:scale-95">
-            <Link to="/accommodation">View Recommended Accommodations</Link>
-          </Button>
-        </div>
-      </section>
-
-      {/* Package Deals */}
+      {/* Tailored Package Example */}
       <section className="py-16 bg-muted">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <Package className="size-12 mx-auto mb-4 text-primary" />
             <h2 className="text-4xl font-serif mb-4">
-              Special Package Deals
+              Build Your Own Tobago Dive Package
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Save more with our bundled packages designed for different types of adventures
+              Every trip is different. The itinerary below is an example; contact us and we will create a package around your dates, experience and interests.
             </p>
           </div>
 
@@ -404,19 +384,13 @@ function Pricing() {
                   pkg.popular ? 'border-primary border-2' : ''
                 }`}
               >
-                {pkg.popular && (
-                  <div className="bg-primary text-primary-foreground text-center py-2 font-serif">
-                    Best Value
-                  </div>
-                )}
+                <div className="bg-primary text-primary-foreground text-center py-2 font-serif">
+                  Example Itinerary
+                </div>
                 <CardContent className="p-6">
                   <h3 className="font-serif text-2xl mb-2">
                     {pkg.name}
                   </h3>
-                  <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-4xl font-serif text-primary">{pkg.price}</span>
-                    <Badge variant="secondary">{pkg.savings}</Badge>
-                  </div>
                   <p className="text-sm text-muted-foreground mb-6 italic">
                     {pkg.ideal}
                   </p>
@@ -432,13 +406,31 @@ function Pricing() {
 
                   <Button asChild className="w-full" variant={pkg.popular ? "default" : "outline"}>
                     <a href="#footer">
-                      Book Package
+                      Request a Tailored Package
                     </a>
                   </Button>
                 </CardContent>
               </Card>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Accommodation Notice */}
+      <section className="py-16 bg-primary/5 border-y border-primary/10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="flex justify-center mb-6">
+             <div className="bg-primary/10 p-4 rounded-full">
+               <Home className="size-10 text-primary" />
+             </div>
+          </div>
+          <h2 className="text-3xl font-serif mb-4 text-foreground">Need a place to stay?</h2>
+          <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto">
+            We can assist with your accommodation needs. Let us know your ideas, comfort range and price and we will be happy to help. Here is a list of links to hotels and guest houses that we recommend.
+          </p>
+          <Button asChild className="rounded-full shadow-md text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 h-auto sm:h-12 border-none bg-primary text-primary-foreground transition-transform hover:scale-105 active:scale-95">
+            <Link to="/accommodation">View Recommended Accommodations</Link>
+          </Button>
         </div>
       </section>
     </div>

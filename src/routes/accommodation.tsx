@@ -3,15 +3,16 @@ import { createFileRoute } from '@tanstack/react-router'
 export const Route = createFileRoute('/accommodation')({
   head: () => ({
     meta: [
-      { title: 'Recommended Accommodations | Wild Turtle Scuba Club Ltd.' },
-      { name: 'description', content: 'Explore our hand-picked recommendations for comfortable lodging near our dive center. From resorts to guest houses.' },
-      { name: 'keywords', content: 'dive accommodations, places to stay, scuba resort, lodging near dive shop, guest houses' },
-      { property: 'og:title', content: 'Recommended Accommodations | Wild Turtle Scuba Club Ltd.' },
-      { property: 'og:description', content: 'Explore our hand-picked recommendations for comfortable lodging near our dive center. From resorts to guest houses.' },
+      { title: 'Castara Tobago Accommodation for Divers | Wild Turtle Scuba Club' },
+      { name: 'description', content: 'Find recommended accommodation in Castara, Tobago near Wild Turtle Scuba Club—guest houses and places to stay for your Tobago diving trip.' },
+      { name: 'keywords', content: 'Castara Tobago accommodation, where to stay in Castara, Tobago diving accommodation, guest houses Castara, Tobago dive trip' },
+      { property: 'og:title', content: 'Castara Tobago Accommodation for Divers | Wild Turtle Scuba Club' },
+      { property: 'og:description', content: 'Find recommended accommodation in Castara, Tobago near Wild Turtle Scuba Club—guest houses and places to stay for your Tobago diving trip.' },
       { property: 'og:type', content: 'website' },
       { property: 'twitter:card', content: 'summary_large_image' },
-      { property: 'twitter:title', content: 'Recommended Accommodations | Wild Turtle Scuba Club Ltd.' },
-      { property: 'twitter:description', content: 'Explore our hand-picked recommendations for comfortable lodging near our dive center. From resorts to guest houses.' }
-    ]
+      { property: 'twitter:title', content: 'Castara Tobago Accommodation for Divers | Wild Turtle Scuba Club' },
+      { property: 'twitter:description', content: 'Find recommended accommodation in Castara, Tobago near Wild Turtle Scuba Club.' }
+    ],
+    links: [{ rel: 'canonical', href: 'https://www.new.divingintobago.com/accommodation' }]
   })
 })

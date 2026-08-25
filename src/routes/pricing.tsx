@@ -3,15 +3,16 @@ import { createFileRoute } from '@tanstack/react-router'
 export const Route = createFileRoute('/pricing')({
   head: () => ({
     meta: [
-      { title: 'Pricing & Packages | Wild Turtle Scuba Club Ltd.' },
-      { name: 'description', content: 'Transparent pricing for all our diving courses, gear rentals, and fishing services.' },
-      { name: 'keywords', content: 'scuba diving prices, PADI dive course cost, diving gear rental rates, scuba packages' },
-      { property: 'og:title', content: 'Pricing & Packages | Wild Turtle Scuba Club Ltd.' },
-      { property: 'og:description', content: 'Transparent pricing for all our diving courses, gear rentals, and fishing services.' },
+      { title: 'PADI Courses & Scuba Diving Prices in Tobago | Wild Turtle' },
+      { name: 'description', content: 'View PADI certification course, scuba diving and equipment rental prices in Castara, Tobago. Book with Wild Turtle Scuba Club, Depot Road.' },
+      { name: 'keywords', content: 'PADI certification courses in Tobago, PADI courses Tobago prices, scuba diving Tobago prices, diving gear rental Tobago, Castara diving' },
+      { property: 'og:title', content: 'PADI Courses & Scuba Diving Prices in Tobago | Wild Turtle' },
+      { property: 'og:description', content: 'View PADI certification course, scuba diving and equipment rental prices in Castara, Tobago. Book with Wild Turtle Scuba Club, Depot Road.' },
       { property: 'og:type', content: 'website' },
       { property: 'twitter:card', content: 'summary' },
-      { property: 'twitter:title', content: 'Pricing & Packages | Wild Turtle Scuba Club Ltd.' },
-      { property: 'twitter:description', content: 'Transparent pricing for all our diving courses, gear rentals, and fishing services.' }
-    ]
+      { property: 'twitter:title', content: 'PADI Courses & Scuba Diving Prices in Tobago | Wild Turtle' },
+      { property: 'twitter:description', content: 'View PADI certification course, scuba diving and equipment rental prices in Castara, Tobago.' }
+    ],
+    links: [{ rel: 'canonical', href: 'https://www.new.divingintobago.com/pricing' }]
   })
 })

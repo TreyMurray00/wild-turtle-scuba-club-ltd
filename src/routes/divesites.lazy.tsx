@@ -25,7 +25,7 @@ function DiveSites() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-serif mb-4">Explore Our Dive Sites</h1>
           <p className="text-xl md:text-2xl max-w-2xl mx-auto text-primary-foreground/90">
-            Discover the beauty beneath the waves at our curated selection of pristine diving locations.
+            Explore Tobago dive sites from Castara, from calm reef dives for newer divers to deeper sites for experienced guests. Our local team will help match conditions, marine life and dive profiles to your experience level.
           </p>
         </div>
       </section>
