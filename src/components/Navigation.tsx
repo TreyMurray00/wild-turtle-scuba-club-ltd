@@ -2,7 +2,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
-import logo from "../assets/22a46df8d15fc41e0a5de64097895ec3934161c1.png";
+import logo from "../assets/wildturtleclub_favicon.png";
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
