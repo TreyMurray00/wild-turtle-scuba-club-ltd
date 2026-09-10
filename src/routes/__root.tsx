@@ -96,7 +96,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       { '@type': 'AdministrativeArea', name: 'Tobago' },
       { '@type': 'Country', name: 'Trinidad and Tobago' },
     ],
-    knowsAbout: ['Scuba diving in Tobago', 'PADI certification courses', 'Tobago dive sites'],
+    knowsAbout: ['Scuba diving in Tobago', 'PADI certification courses'],
   };
 
   return (
@@ -171,9 +171,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                       </li>
                       <li>
                         <a href="/accommodation" className="hover:text-primary transition-colors">Accommodation</a>
-                      </li>
-                      <li>
-                        <a href="/divesites" className="hover:text-primary transition-colors">Dive Sites</a>
                       </li>
                       <li>
                         <a href="/gallery" className="hover:text-primary transition-colors">Gallery</a>

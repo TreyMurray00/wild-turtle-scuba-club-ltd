@@ -10,6 +10,13 @@ export const courseType = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+      description: 'Controls the order in which courses appear on the pricing page.',
+      validation: (Rule) => Rule.integer().min(0),
+    }),
+    defineField({
       name: "image",
       type: "image",
       options: {

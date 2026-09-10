@@ -12,7 +12,6 @@ export function Navigation() {
     { path: "/", label: "Home" },
     { path: "/pricing", label: "Pricing" },
     { path: "/about", label: "About" },
-    { path: "/divesites", label: "Dive Sites" },
     { path: "/gallery", label: "Gallery" },
     { path: "#footer", label: "Contact" },
   ];

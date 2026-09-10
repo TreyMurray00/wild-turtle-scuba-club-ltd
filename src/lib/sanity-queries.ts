@@ -12,9 +12,10 @@ export const SERVICES_QUERY = `*[_type == "service"] {
   price
 }`;
 
-export const COURSES_QUERY = `*[_type == "course"] {
+export const COURSES_QUERY = `*[_type == "course"] | order(order asc, _createdAt asc) {
   _id,
   name,
+  order,
   description,
   image,
   cost,
@@ -59,15 +60,6 @@ export const DIVES_QUERY = `*[_type == "dive"] {
   cost
 }  `;
 
-export const DIVESITES_QUERY = `*[_type == "divesite"] {
-  _id,
-  name,
-  maxDepth,
-  difficulty,
-  description,
-  images
-}`;
-
 export const CONTACT_QUERY = `*[_type == "contact"][0] {
   email,
   address,
@@ -85,4 +77,3 @@ export const GALLERY_QUERY = `*[_type == "galleryPhoto"] | order(order asc, _cre
   isFeatured,
   order
 }`;
-
