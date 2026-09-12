@@ -41,8 +41,8 @@ export function Navigation() {
                 <a
                   key={link.path}
                   href={link.path}
-                  className={`transition-colors hover:text-primary ${
-                    isActive(link.path) ? "text-primary" : ""
+                  className={`transition-colors hover:text-white/80 ${
+                    isActive(link.path) ? "text-white font-semibold border-b-2 border-white pb-1" : ""
                   }`}
                 >
                   {link.label}
@@ -51,8 +51,8 @@ export function Navigation() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`transition-colors hover:text-primary ${
-                    isActive(link.path) ? "text-primary" : ""
+                  className={`transition-colors hover:text-white/80 ${
+                    isActive(link.path) ? "text-white font-semibold border-b-2 border-white pb-1" : ""
                   }`}
                 >
                   {link.label}
@@ -85,8 +85,8 @@ export function Navigation() {
                   key={link.path}
                   href={link.path}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block py-2 transition-colors hover:text-primary ${
-                    isActive(link.path) ? "text-primary" : ""
+                  className={`block py-2 transition-colors hover:text-white/80 ${
+                    isActive(link.path) ? "text-white font-semibold" : ""
                   }`}
                 >
                   {link.label}
@@ -96,8 +96,8 @@ export function Navigation() {
                   key={link.path}
                   to={link.path}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block py-2 transition-colors hover:text-primary ${
-                    isActive(link.path) ? "text-primary" : ""
+                  className={`block py-2 transition-colors hover:text-white/80 ${
+                    isActive(link.path) ? "text-white font-semibold" : ""
                   }`}
                 >
                   {link.label}
