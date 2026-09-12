@@ -53,7 +53,7 @@
   --card-foreground: #0f4b55;
   --popover: #eef7f7;
   --popover-foreground: #0f4b55;
-  --primary: #1db8ce;
+  --primary: #007f91;
   --primary-foreground: #ffffff;
   --secondary: #f0f6fc;
   --secondary-foreground: #090909;
@@ -64,7 +64,7 @@
   --destructive: #f14444;
   --border: #e3e8ef;
   --input: #e3e8ef;
-  --ring: #1db8ce;
+  --ring: #007f91;
   --chart-1: #1db8ce;
   --chart-2: #00869b;
   --chart-3: #42cfe4;
@@ -406,6 +406,19 @@
 
 .gallery-item:hover .gallery-item__overlay {
   opacity: 1;
+}
+
+@media (hover: none) {
+  .gallery-item__overlay {
+    opacity: 1;
+    justify-content: flex-end;
+    align-items: flex-start;
+    background: linear-gradient(to top, rgba(5, 30, 40, 0.86), transparent 65%);
+  }
+
+  .gallery-item__zoom-icon {
+    display: none;
+  }
 }
 
 .gallery-item__zoom-icon {

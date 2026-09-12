@@ -6,6 +6,8 @@ import { useSanityQuery } from '../hooks/useSanityQuery';
 import { ABOUT_QUERY } from '../lib/sanity-queries';
 import { urlFor } from '../lib/sanity';
 import { Skeleton } from '#/components/ui/skeleton';
+import { PageBreadcrumbs } from '../components/PageBreadcrumbs';
+import { BookingCTA } from '../components/BookingCTA';
 
 export const Route = createLazyFileRoute('/about')({
   component: About,
@@ -20,13 +22,19 @@ function About() {
   return (
     <div>
       {/* Header */}
-      <section className="bg-gradient-to-br from-accent-foreground to-primary text-primary-foreground py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-serif mb-4">
+      <section className="relative bg-accent-foreground text-white py-16 md:py-24 overflow-hidden">
+        {aboutData?.profileImage && <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: `url(${urlFor(aboutData.profileImage).width(1600).url()})` }} />}
+        <div className="absolute inset-0 bg-gradient-to-r from-accent-foreground via-accent-foreground/90 to-primary/65" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <PageBreadcrumbs current="About" light />
+          <div className="max-w-3xl mt-10">
+          <p className="text-sm uppercase tracking-[0.18em] font-semibold text-white/70 mb-3">The people behind your dive</p>
+          <h1 className="text-4xl md:text-6xl font-serif mb-5">
             {isLoading ? <Skeleton className="h-12 w-64 mx-auto bg-primary-foreground/20" /> : (aboutData?.pageTitle || 'Meet Your Instructor')}
           </h1>
-          <div className="text-xl max-w-2xl mx-auto mt-4">
+          <div className="text-lg md:text-xl max-w-2xl text-white/85 leading-relaxed">
             {isLoading ? <Skeleton className="h-6 w-96 mx-auto bg-primary-foreground/20" /> : (aboutData?.subtitle || '')}
+          </div>
           </div>
         </div>
       </section>
@@ -35,7 +43,7 @@ function About() {
       <section className="py-16 bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div className="space-y-6">
+            <div className="space-y-6 order-2 lg:order-1">
               {isLoading ? (
                 <>
                   <Skeleton className="h-10 w-48" />
@@ -56,9 +64,13 @@ function About() {
                     {aboutData?.instructorRole || ''}
                   </h3>
                   
-                  <div className="space-y-4 text-muted-foreground text-lg whitespace-pre-wrap">
+                  <div className="max-w-prose space-y-4 text-muted-foreground text-lg whitespace-pre-wrap leading-relaxed">
                     {aboutData?.bio && <p>{aboutData.bio}</p>}
                   </div>
+
+                  <blockquote className="border-l-4 border-primary pl-5 py-2 text-xl font-serif italic text-foreground">
+                    Tobago's reefs are more than dive sites—they are part of the community we are proud to share and protect.
+                  </blockquote>
 
                   {/* Certifications */}
                   {aboutData?.certifications && aboutData.certifications.length > 0 && (
@@ -67,21 +79,23 @@ function About() {
                         <Award className="w-5 h-5 text-accent-foreground" />
                         Certifications & Qualifications
                       </h4>
-                      <ul className="space-y-2">
+                      <ul className="flex flex-wrap gap-2">
                         {aboutData.certifications.map((cert: string, idx: number) => (
-                          <li key={idx} className="flex items-start gap-2">
-                            <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
-                            <span className="text-muted-foreground">{cert}</span>
+                          <li key={idx} className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-sm">
+                            <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                            <span>{cert}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
                   )}
+
+                  {aboutData?.stats?.length > 0 && <div className="grid grid-cols-2 gap-4 pt-4">{aboutData.stats.slice(0, 4).map((stat: any, idx: number) => <div key={idx} className="rounded-2xl border bg-background p-5"><div className="text-3xl font-serif text-primary">{stat.value}</div><div className="text-sm text-muted-foreground">{stat.label}</div></div>)}</div>}
                 </>
               )}
             </div>
 
-            <div className="sticky top-6">
+            <div className="lg:sticky lg:top-24 order-1 lg:order-2">
               {isLoading ? (
                 <Skeleton className="w-full aspect-[3/4] md:aspect-square lg:aspect-[3/4] rounded-xl shadow-xl border-4 border-muted" />
               ) : (
@@ -94,31 +108,6 @@ function About() {
                 )
               )}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-accent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {isLoading ? (
-              Array(4).fill(0).map((_, idx) => (
-                <div key={idx} className="flex flex-col items-center">
-                  <Skeleton className="h-12 w-24 mb-2 bg-accent-foreground/10" />
-                  <Skeleton className="h-5 w-32 bg-accent-foreground/10" />
-                </div>
-              ))
-            ) : (
-              aboutData?.stats && aboutData.stats.length > 0 && (
-                aboutData.stats.map((stat: any, idx: number) => (
-                  <div key={idx}>
-                    <div className="text-4xl md:text-5xl font-serif mb-2 text-accent-foreground">{stat.value}</div>
-                    <div className="text-muted-foreground">{stat.label}</div>
-                  </div>
-                ))
-              )
-            )}
           </div>
         </div>
       </section>
@@ -184,6 +173,8 @@ function About() {
           </div>
         </div>
       </section>
+
+      <BookingCTA title="Dive With the Wild Turtle Team" description="Tell us what you want from your Tobago dive experience and we’ll help you plan the right course, guided dive or package." />
 
     </div>
   );

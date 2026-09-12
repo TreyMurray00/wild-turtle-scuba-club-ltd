@@ -52,12 +52,12 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
       { property: 'og:site_name', content: 'Wild Turtle Scuba Club' },
       { property: 'og:locale', content: 'en_TT' },
-      { property: 'og:image', content: 'https://www.divingintobago.com/wildturtleclub_favicon.png' },
+      { property: 'og:image', content: 'https://www.new.divingintobago.com/wildturtleclub_favicon.png' },
       { property: 'og:image:alt', content: 'Wild Turtle Scuba Club Tobago logo' },
       { property: 'og:image:type', content: 'image/png' },
       { property: 'og:image:width', content: '1280' },
       { property: 'og:image:height', content: '1280' },
-      { name: 'twitter:image', content: 'https://www.divingintobago.com/wildturtleclub_favicon.png' },
+      { name: 'twitter:image', content: 'https://www.new.divingintobago.com/wildturtleclub_favicon.png' },
       { name: 'twitter:image:alt', content: 'Wild Turtle Scuba Club Tobago logo' },
       { title: 'Wild Turtle Scuba Club Ltd.' },
     ],
@@ -132,23 +132,23 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                   <div>
                     <h3 className="font-serif text-lg mb-4">Contact Us</h3>
                     <div className="space-y-3 text-primary-foreground/80">
-                      <div className="flex items-center gap-2">
+                      {contact?.phone && <div className="flex items-center gap-2">
                         <Phone className="size-5" />
-                        <span>{contact?.phone || "(555) 123-4567"}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
+                        <a href={`tel:${contact.phone}`} className="hover:text-white">{contact.phone}</a>
+                      </div>}
+                      {contact?.email && <div className="flex items-center gap-2">
                         <Mail className="size-5" />
-                        <span>{contact?.email || "info@wildturtlescuba.com"}</span>
-                      </div>
-                      <div className="flex flex-col gap-1 mt-2">
+                        <a href={`mailto:${contact.email}`} className="hover:text-white">{contact.email}</a>
+                      </div>}
+                      {contact?.address?.length > 0 && <div className="flex flex-col gap-1 mt-2">
                         <div className="flex items-center gap-2">
                           <MapPin className="size-5" />
                           <span>Wild Turtle Scuba Club Ltd.</span>
                         </div>
                         {contact?.address?.map((line: string, i: number) => (
                            <span key={i} className="ml-7 block">{line}</span>
-                        )) || <span className="ml-7 block">123 Ocean Drive, Coastal City</span>}
-                      </div>
+                        ))}
+                      </div>}
                     </div>
                   </div>
 

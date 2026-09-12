@@ -49,7 +49,11 @@ export const ACCOMMODATION_QUERY = `*[_type == "accomodation"] {
   name,
   link,
   image,
-  description
+  description,
+  accommodationType,
+  priceRange,
+  distance,
+  bestFor
 }`;
 
 export const DIVES_QUERY = `*[_type == "dive"] {

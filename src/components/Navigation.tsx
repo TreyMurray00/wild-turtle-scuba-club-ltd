@@ -10,7 +10,7 @@ export function Navigation() {
 
   const navLinks = [
     { path: "/", label: "Home" },
-    { path: "/pricing", label: "Pricing" },
+    { path: "/pricing", label: "Dives & Courses" },
     { path: "/about", label: "About" },
     { path: "/gallery", label: "Gallery" },
     { path: "#footer", label: "Contact" },
@@ -35,7 +35,7 @@ export function Navigation() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-7">
             {navLinks.map((link) => (
               link.path.startsWith("#") ? (
                 <a
@@ -59,6 +59,9 @@ export function Navigation() {
                 </Link>
               )
             ))}
+            <Button asChild className="rounded-full bg-primary text-primary-foreground px-5 shadow-md hover:bg-primary/90">
+              <Link to="/pricing">Book a Dive</Link>
+            </Button>
           </div>
 
           {/* Mobile menu button */}
@@ -101,6 +104,9 @@ export function Navigation() {
                 </Link>
               )
             ))}
+            <Button asChild className="mt-3 w-full rounded-full">
+              <Link to="/pricing" onClick={() => setIsMenuOpen(false)}>Book a Dive</Link>
+            </Button>
           </div>
         )}
       </div>
