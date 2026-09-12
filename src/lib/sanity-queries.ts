@@ -12,6 +12,14 @@ export const SERVICES_QUERY = `*[_type == "service"] {
   price
 }`;
 
+export const HOME_SERVICES_QUERY = `*[_type == "service"] | order(_createdAt asc)[0...4] {
+  _id,
+  name,
+  description,
+  image,
+  price
+}`;
+
 export const COURSES_QUERY = `*[_type == "course"] | order(order asc, _createdAt asc) {
   _id,
   name,
@@ -41,6 +49,13 @@ export const ABOUT_QUERY = `*[_type == "about"][0] {
   profileImage,
   bio,
   certifications,
+  stats
+}`;
+
+export const ABOUT_SUMMARY_QUERY = `*[_type == "about"][0] {
+  instructorName,
+  instructorRole,
+  profileImage,
   stats
 }`;
 
@@ -80,4 +95,11 @@ export const GALLERY_QUERY = `*[_type == "galleryPhoto"] | order(order asc, _cre
   description,
   isFeatured,
   order
+}`;
+
+export const HOME_GALLERY_QUERY = `*[_type == "galleryPhoto"] | order(order asc, _createdAt desc)[0...4] {
+  _id,
+  title,
+  image,
+  altText
 }`;

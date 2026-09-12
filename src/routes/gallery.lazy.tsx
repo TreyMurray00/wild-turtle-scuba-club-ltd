@@ -1,5 +1,5 @@
 import { createLazyFileRoute, Link } from '@tanstack/react-router'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { ImageWithFallback } from '../components/figma/ImageWithFallback'
 import { Skeleton } from '../components/ui/skeleton'
 import { useSanityQuery } from '../hooks/useSanityQuery'
@@ -46,6 +46,8 @@ type GalleryPhoto = {
 function Gallery() {
   const [activeCategory, setActiveCategory] = useState('all')
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const lightboxRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
 
   const { data: photos, isLoading } = useSanityQuery<GalleryPhoto[]>(
     ['sanity', 'gallery'],
@@ -57,8 +59,18 @@ function Gallery() {
       ? (photos ?? [])
       : (photos ?? []).filter((p) => p.category === activeCategory)
 
-  const openLightbox = useCallback((index: number) => setLightboxIndex(index), [])
-  const closeLightbox = useCallback(() => setLightboxIndex(null), [])
+  const openLightbox = useCallback((index: number, trigger?: HTMLButtonElement) => {
+    triggerRef.current = trigger ?? null
+    setLightboxIndex(index)
+  }, [])
+  const closeLightbox = useCallback(() => {
+    setLightboxIndex(null)
+    requestAnimationFrame(() => triggerRef.current?.focus())
+  }, [])
+
+  useEffect(() => {
+    if (lightboxIndex !== null) lightboxRef.current?.focus()
+  }, [lightboxIndex])
 
   const prevPhoto = useCallback(() => {
     setLightboxIndex((i) => (i !== null ? (i - 1 + filtered.length) % filtered.length : null))
@@ -113,14 +125,12 @@ function Gallery() {
     }
 
     return filtered.map((photo, index) => (
-      <div
+      <button
         key={photo._id}
+        type="button"
         className={`gallery-item ${photo.isFeatured ? 'gallery-item--featured' : ''}`}
-        onClick={() => openLightbox(index)}
-        role="button"
-        tabIndex={0}
+        onClick={(event) => openLightbox(index, event.currentTarget)}
         aria-label={`View ${photo.title}`}
-        onKeyDown={(e) => e.key === 'Enter' && openLightbox(index)}
       >
         <ImageWithFallback
           src={urlFor(photo.image).width(800).url()}
@@ -138,7 +148,7 @@ function Gallery() {
             </span>
           )}
         </div>
-      </div>
+      </button>
     ))
   }
 
@@ -199,6 +209,7 @@ function Gallery() {
           aria-label="Photo lightbox"
           onKeyDown={handleKeyDown}
           tabIndex={-1}
+          ref={lightboxRef}
           onClick={(e) => e.target === e.currentTarget && closeLightbox()}
         >
           {/* Close */}

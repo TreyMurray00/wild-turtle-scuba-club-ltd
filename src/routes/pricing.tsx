@@ -13,6 +13,6 @@ export const Route = createFileRoute('/pricing')({
       { property: 'twitter:title', content: 'PADI Certification & Tobago Dive Packages | Wild Turtle' },
       { property: 'twitter:description', content: 'Explore PADI courses, guided scuba diving and tailored dive holiday packages in Tobago.' }
     ],
-    links: [{ rel: 'canonical', href: 'https://www.new.divingintobago.com/pricing' }]
+    links: [{ rel: 'canonical', href: 'https://www.divingintobago.com/pricing' }]
   })
 })

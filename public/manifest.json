@@ -1,11 +1,11 @@
 {
-  "short_name": "TanStack App",
-  "name": "Create TanStack App Sample",
+  "short_name": "Wild Turtle Scuba",
+  "name": "Wild Turtle Scuba Club Ltd.",
   "icons": [
     {
-      "src": "wildturtleclub_favicon.png",
-      "sizes": "1280x1280",
-      "type": "image/png"
+      "src": "wildturtleclub_favicon.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
     },
     {
       "src": "logo192.png",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#007f91",
+  "background_color": "#ecf4f4"
 }

@@ -23,7 +23,7 @@ function About() {
     <div>
       {/* Header */}
       <section className="relative bg-accent-foreground text-white py-16 md:py-24 overflow-hidden">
-        {aboutData?.profileImage && <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: `url(${urlFor(aboutData.profileImage).width(1600).url()})` }} />}
+        {aboutData?.profileImage && <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: `url(${urlFor(aboutData.profileImage).width(1200).url()})` }} />}
         <div className="absolute inset-0 bg-gradient-to-r from-accent-foreground via-accent-foreground/90 to-primary/65" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <PageBreadcrumbs current="About" light />
@@ -101,6 +101,7 @@ function About() {
               ) : (
                 aboutData?.profileImage && (
                   <img
+                    loading="lazy"
                     src={urlFor(aboutData.profileImage).width(800).url()}
                     alt={aboutData.instructorName || "Instructor"}
                     className="w-full aspect-[3/4] md:aspect-square lg:aspect-[3/4] object-cover rounded-xl shadow-xl"

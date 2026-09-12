@@ -13,7 +13,7 @@ export const Route = createFileRoute('/gallery')({
       { property: 'twitter:title', content: 'Tobago Scuba Diving Gallery | Wild Turtle Scuba Club' },
       { property: 'twitter:description', content: 'See scuba diving, reef life and ocean adventures with Wild Turtle Scuba Club in Castara, Tobago.' },
     ],
-    links: [{ rel: 'canonical', href: 'https://www.new.divingintobago.com/gallery' }],
+    links: [{ rel: 'canonical', href: 'https://www.divingintobago.com/gallery' }],
   }),
   component: () => null,
 })

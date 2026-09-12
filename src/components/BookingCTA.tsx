@@ -2,6 +2,7 @@ import { ArrowRight, Mail, MessageCircle, Phone } from 'lucide-react'
 import { Button } from './ui/button'
 import { useSanityQuery } from '../hooks/useSanityQuery'
 import { CONTACT_QUERY } from '../lib/sanity-queries'
+import { EnquiryForm } from './EnquiryForm'
 
 export function BookingCTA({
   title = 'Ready to Dive Tobago?',
@@ -25,6 +26,7 @@ export function BookingCTA({
           {contact?.phone && <Button asChild size="lg" variant="outline" className="rounded-full border-white/60 bg-transparent text-white hover:bg-white hover:text-accent-foreground"><a href={`tel:${contact.phone}`}><Phone className="mr-2 size-5" />Call us</a></Button>}
           {!whatsappNumber && !contact?.email && !contact?.phone && <Button asChild size="lg" className="rounded-full bg-white text-accent-foreground hover:bg-white/90"><a href="#footer">Contact our dive team <ArrowRight className="ml-2 size-5" /></a></Button>}
         </div>
+        <EnquiryForm email={contact?.email} />
       </div>
     </section>
   )

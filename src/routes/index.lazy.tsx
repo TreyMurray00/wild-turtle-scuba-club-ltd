@@ -8,7 +8,7 @@ import { Skeleton } from '../components/ui/skeleton'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../components/ui/accordion'
 import { BookingCTA } from '../components/BookingCTA'
 import { useSanityQuery } from '../hooks/useSanityQuery'
-import { ABOUT_QUERY, GALLERY_QUERY, HOME_QUERY, SERVICES_QUERY } from '../lib/sanity-queries'
+import { ABOUT_SUMMARY_QUERY, HOME_GALLERY_QUERY, HOME_QUERY, HOME_SERVICES_QUERY } from '../lib/sanity-queries'
 import { urlFor } from '../lib/sanity'
 
 export const Route = createLazyFileRoute('/')({ component: Home })
@@ -31,9 +31,9 @@ const faqs = [
 function Home() {
   const carouselSettings = { dots: true, infinite: true, speed: 1000, slidesToShow: 1, slidesToScroll: 1, autoplay: true, autoplaySpeed: 5000, fade: true, pauseOnHover: true, arrows: false }
   const { data: homeData, isLoading: isHomeLoading } = useSanityQuery(['sanity', 'home'], HOME_QUERY)
-  const { data: services, isLoading: isServicesLoading } = useSanityQuery(['sanity', 'services'], SERVICES_QUERY)
-  const { data: aboutData } = useSanityQuery(['sanity', 'about'], ABOUT_QUERY)
-  const { data: photos, isLoading: isGalleryLoading } = useSanityQuery(['sanity', 'gallery'], GALLERY_QUERY)
+  const { data: services, isLoading: isServicesLoading } = useSanityQuery(['sanity', 'home-services'], HOME_SERVICES_QUERY)
+  const { data: aboutData } = useSanityQuery(['sanity', 'about-summary'], ABOUT_SUMMARY_QUERY)
+  const { data: photos, isLoading: isGalleryLoading } = useSanityQuery(['sanity', 'home-gallery'], HOME_GALLERY_QUERY)
 
   const activeImages = homeData?.images?.length ? homeData.images.map((image: any) => ({ url: urlFor(image).width(1800).url(), alt: 'Scuba diving in Tobago with Wild Turtle Scuba Club' })) : []
   const displayedServices = services?.length ? services.slice(0, 4) : fallbackServices
@@ -49,7 +49,7 @@ function Home() {
       <section className="relative h-[620px] md:h-[680px] bg-accent-foreground/90 overflow-hidden">
         {isHomeLoading ? <Skeleton className="w-full h-full rounded-none opacity-50" /> : (
           <div className="hero-carousel absolute inset-0">
-            {activeImages.length > 0 && <Slider {...carouselSettings}>{activeImages.map((image: any, index: number) => <div key={index} className="relative h-[620px] md:h-[680px]"><ImageWithFallback src={image.url} alt={image.alt} className="w-full h-full object-cover" /></div>)}</Slider>}
+            {activeImages.length > 0 && <Slider {...carouselSettings}>{activeImages.map((image: any, index: number) => <div key={index} className="relative h-[620px] md:h-[680px]"><ImageWithFallback src={image.url} alt={image.alt} loading={index === 0 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'high' : 'low'} className="w-full h-full object-cover" /></div>)}</Slider>}
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-accent-foreground/45 via-accent-foreground/55 to-accent-foreground/80 z-[5]" />
@@ -111,7 +111,7 @@ function Home() {
 
       <section className="py-20 md:py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
-          <div className="relative rounded-3xl overflow-hidden min-h-[480px] bg-muted shadow-lg order-2 lg:order-1">{aboutData?.profileImage ? <img src={urlFor(aboutData.profileImage).width(1000).url()} alt={aboutData.instructorName || 'Wild Turtle Scuba Club instructor'} className="absolute inset-0 h-full w-full object-cover" /> : <div className="absolute inset-0 bg-gradient-to-br from-accent to-muted flex items-center justify-center"><Users className="size-20 text-primary/40" /></div>}</div>
+          <div className="relative rounded-3xl overflow-hidden min-h-[480px] bg-muted shadow-lg order-2 lg:order-1">{aboutData?.profileImage ? <img loading="lazy" src={urlFor(aboutData.profileImage).width(800).url()} alt={aboutData.instructorName || 'Wild Turtle Scuba Club instructor'} className="absolute inset-0 h-full w-full object-cover" /> : <div className="absolute inset-0 bg-gradient-to-br from-accent to-muted flex items-center justify-center"><Users className="size-20 text-primary/40" /></div>}</div>
           <div className="order-1 lg:order-2"><p className="text-sm uppercase tracking-[0.18em] font-semibold text-primary mb-3">Meet your dive team</p><h2 className="text-4xl md:text-5xl font-serif mb-3">{aboutData?.instructorName || 'Dive with a local Castara team'}</h2>{aboutData?.instructorRole && <p className="text-xl text-primary font-medium mb-5">{aboutData.instructorRole}</p>}<p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-line line-clamp-[8]">{aboutData?.bio || 'Get to know the people who will help plan and guide your time underwater in Tobago.'}</p>{aboutData?.stats?.length > 0 && <div className="grid grid-cols-2 gap-4 mt-7">{aboutData.stats.slice(0, 4).map((stat: any, index: number) => <div key={index} className="rounded-xl bg-card border p-4"><div className="text-2xl font-serif text-primary">{stat.value}</div><div className="text-sm text-muted-foreground">{stat.label}</div></div>)}</div>}<Button asChild variant="outline" className="mt-7 rounded-full border-primary text-primary hover:bg-primary hover:text-white"><Link to="/about">Meet the instructor <ArrowRight className="ml-2 size-4" /></Link></Button></div>
         </div>
       </section>

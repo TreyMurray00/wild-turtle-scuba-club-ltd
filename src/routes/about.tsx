@@ -13,6 +13,6 @@ export const Route = createFileRoute('/about')({
       { property: 'twitter:title', content: 'PADI Dive Instructors in Tobago | Wild Turtle Scuba Club' },
       { property: 'twitter:description', content: 'Meet the PADI-certified dive professionals behind Wild Turtle Scuba Club in Castara, Tobago.' }
     ],
-    links: [{ rel: 'canonical', href: 'https://www.new.divingintobago.com/about' }]
+    links: [{ rel: 'canonical', href: 'https://www.divingintobago.com/about' }]
   })
 })
