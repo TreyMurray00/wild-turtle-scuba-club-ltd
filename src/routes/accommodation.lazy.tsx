@@ -1,125 +1,68 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { Card, CardContent } from "../components/ui/card";
-import { Button } from "../components/ui/button";
-import { ExternalLink, Home, Map } from "lucide-react";
-import { useSanityQuery } from '../hooks/useSanityQuery';
-import { ACCOMMODATION_QUERY } from '../lib/sanity-queries';
-import { urlFor } from '../lib/sanity';
-import { Skeleton } from '../components/ui/skeleton';
+import { ExternalLink, MapPin, Users } from 'lucide-react'
+import { ImageWithFallback } from '../components/figma/ImageWithFallback'
+import { Card, CardContent } from '../components/ui/card'
+import { Button } from '../components/ui/button'
+import { Skeleton } from '../components/ui/skeleton'
+import { PageBreadcrumbs } from '../components/PageBreadcrumbs'
+import { BookingCTA } from '../components/BookingCTA'
+import { useSanityQuery } from '../hooks/useSanityQuery'
+import { ACCOMMODATION_QUERY } from '../lib/sanity-queries'
+import { urlFor } from '../lib/sanity'
 
-export const Route = createLazyFileRoute('/accommodation')({
-  component: Accommodation,
-})
+export const Route = createLazyFileRoute('/accommodation')({ component: Accommodation })
 
 function Accommodation() {
-  const { data: accommodationsData, isLoading } = useSanityQuery(
-    ['sanity', 'accommodation'],
-    ACCOMMODATION_QUERY
-  );
-
-  const accommodationsList = accommodationsData && accommodationsData.length > 0
-    ? accommodationsData.map((acc: any, idx: number) => ({
-        id: acc._id || idx,
-        name: acc.name,
-        image: acc.image ? urlFor(acc.image).width(800).url() : "https://images.unsplash.com/photo-1566073771259-6a8506099945?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMHJvb20lMjBiZWFjaHxlbnwxfHx8fDE3NzU0ODc4NjF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-        description: acc.description,
-        link: acc.link
-      }))
-    : [];
+  const { data: accommodationsData, isLoading } = useSanityQuery(['sanity', 'accommodation'], ACCOMMODATION_QUERY)
+  const accommodations = accommodationsData ?? []
 
   return (
     <div>
-      {/* Header */}
-      <section className="bg-gradient-to-br from-accent-foreground to-primary text-primary-foreground py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/10 z-0"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <Home className="size-16 mx-auto mb-6 text-primary-foreground/80" />
-          <h1 className="text-4xl md:text-5xl font-serif mb-6 tracking-wide">Places to Stay {isLoading && '(Loading...)'}</h1>
-          <p className="text-xl max-w-2xl mx-auto font-light text-primary-foreground/90">
-            Hand-picked recommendations for comfortable lodging near our dive center.
-          </p>
-        </div>
-      </section>
-
-      {/* Introduction */}
-      <section className="py-16 bg-muted/30">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-            We've carefully researched local hotels, resorts, and guest houses to offer our visiting divers perfectly located accommodation options. Whether you're looking for budget-friendly lodging or luxury amenities, you can find our recommended spots below to suit your preference.
-          </p>
-        </div>
-      </section>
-
-      {/* Accommodations List */}
-      <section className="py-20 bg-background">
+      <section className="bg-gradient-to-br from-accent-foreground to-primary text-white py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {isLoading ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-               {[1, 2, 3, 4].map(idx => (
-                 <Skeleton key={idx} className="h-[500px] w-full rounded-2xl" />
-               ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-              {accommodationsList.map((accommodation: any) => (
-                <Card key={accommodation.id} className="group overflow-hidden hover:shadow-2xl transition-all duration-300 border-border/50 bg-card flex flex-col h-full rounded-2xl">
-                  <div className="relative h-72 overflow-hidden bg-muted">
-                    <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 z-10" />
-                    <ImageWithFallback
-                      src={accommodation.image}
-                      alt={accommodation.name}
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
+          <PageBreadcrumbs current="Accommodation" light />
+          <div className="max-w-3xl mt-10">
+            <p className="text-sm uppercase tracking-[0.18em] font-semibold text-white/70 mb-3">Stay close to the water</p>
+            <h1 className="text-4xl md:text-6xl font-serif mb-5 leading-tight">Where to Stay for Your Tobago Dive Holiday</h1>
+            <p className="text-lg md:text-xl text-white/85 leading-relaxed">Independent hotels, apartments and guest houses convenient for diving with our Castara team.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 bg-card border-b">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-[auto_1fr] gap-6 items-start">
+          <div className="size-14 rounded-2xl bg-accent flex items-center justify-center"><MapPin className="size-7 text-primary" /></div>
+          <div><h2 className="text-2xl font-serif mb-2">Accommodation near our Castara dive centre</h2><p className="text-muted-foreground leading-relaxed">Use these recommendations as a starting point. Tell us your dates, budget and preferred comfort level and we can help you coordinate your stay with your diving schedule.</p></div>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-24 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-10"><p className="text-sm uppercase tracking-[0.18em] font-semibold text-primary mb-3">Compare your options</p><h2 className="text-4xl md:text-5xl font-serif">Recommended Places to Stay</h2></div>
+          {isLoading ? <div className="grid lg:grid-cols-2 gap-6">{[1, 2, 3, 4].map((item) => <Skeleton key={item} className="h-80 rounded-2xl" />)}</div> : accommodations.length > 0 ? (
+            <div className="grid lg:grid-cols-2 gap-6">
+              {accommodations.map((accommodation: any, index: number) => (
+                <Card key={accommodation._id || index} className="group overflow-hidden rounded-2xl border-border/70 bg-card hover:shadow-xl transition-all md:flex">
+                  <div className="relative h-56 md:h-auto md:w-[42%] shrink-0 bg-muted overflow-hidden">
+                    {accommodation.image ? <ImageWithFallback src={urlFor(accommodation.image).width(800).url()} alt={`${accommodation.name} accommodation in Castara, Tobago`} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" /> : <div className="absolute inset-0 flex items-center justify-center"><MapPin className="size-12 text-primary/30" /></div>}
                   </div>
-                  <CardContent className="p-8 md:p-10 flex flex-col flex-1">
-                    <h3 className="font-serif text-3xl mb-4 text-card-foreground">
-                      {accommodation.name}
-                    </h3>
-
-                    {accommodation.description && (
-                      <p className="text-muted-foreground text-lg leading-relaxed mb-8 flex-1 whitespace-pre-wrap">
-                        {accommodation.description}
-                      </p>
-                    )}
-
-                    <div className="mt-auto pt-6 border-t border-border/60">
-                      <Button asChild size="lg" className="w-full sm:w-auto rounded-full">
-                        <a href={accommodation.link || "#"} target="_blank" rel="noreferrer" className="flex items-center gap-2 justify-center">
-                          <span>Visit Website</span>
-                          <ExternalLink className="size-4" />
-                        </a>
-                      </Button>
-                    </div>
+                  <CardContent className="p-6 flex flex-col flex-1">
+                    <div className="flex flex-wrap gap-2 mb-4">{[accommodation.accommodationType, accommodation.priceRange, accommodation.distance].filter(Boolean).map((tag: string) => <span key={tag} className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground">{tag}</span>)}</div>
+                    <h3 className="font-serif text-2xl mb-3">{accommodation.name}</h3>
+                    {accommodation.description && <p className="text-muted-foreground leading-relaxed line-clamp-4 mb-5">{accommodation.description}</p>}
+                    {accommodation.bestFor && <p className="flex items-center gap-2 text-sm text-muted-foreground mb-5"><Users className="size-4 text-primary" /><strong className="text-foreground">Best for:</strong> {accommodation.bestFor}</p>}
+                    {accommodation.link && <Button asChild variant="outline" className="mt-auto rounded-full self-start border-primary text-primary hover:bg-primary hover:text-white"><a href={accommodation.link} target="_blank" rel="noreferrer">View {accommodation.name} <ExternalLink className="ml-2 size-4" /></a></Button>}
                   </CardContent>
                 </Card>
               ))}
             </div>
-          )}
+          ) : <div className="rounded-2xl border bg-card p-10 text-center"><h3 className="font-serif text-2xl mb-3">Recommendations coming soon</h3><p className="text-muted-foreground">Contact our team and we’ll help you explore places to stay near the dive centre.</p></div>}
         </div>
       </section>
 
-      {/* Booking Help Action Box */}
-      <section className="py-24 bg-primary/5 border-t border-primary/10">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Card className="bg-background shadow-xl rounded-3xl overflow-hidden border-primary/20 relative">
-            <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
-              <Map className="w-64 h-64 text-primary" />
-            </div>
-            <CardContent className="p-10 md:p-16 text-center relative z-10">
-              <h2 className="text-4xl font-serif mb-6 text-foreground">Need Help Deciding?</h2>
-              <p className="text-xl mb-10 text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Our team can help you find the perfect place to stay. Let us know your ideas, comfort range, and price, and we will be extremely happy to help personalize your stay.
-              </p>
-              <Button asChild size="lg" className="rounded-full px-10 h-14 text-lg">
-                <a href="#footer">
-                  Contact Us for Assistance
-                </a>
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+      <section className="py-10 bg-card border-y"><div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-sm text-muted-foreground leading-relaxed"><strong className="text-foreground">Please note:</strong> These accommodations are independently owned and operated. Wild Turtle Scuba Club provides recommendations and planning assistance but does not control third-party pricing, availability or services.</div></section>
+
+      <BookingCTA title="Plan Your Stay and Diving Together" description="Share your dates, accommodation preferences and diving goals. We’ll help you build a practical Tobago itinerary." />
     </div>
-  );
+  )
 }

@@ -18,6 +18,8 @@ import {
 } from "../components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Skeleton } from "../components/ui/skeleton";
+import { PageBreadcrumbs } from '../components/PageBreadcrumbs';
+import { BookingCTA } from '../components/BookingCTA';
 
 export const Route = createLazyFileRoute('/pricing')({
   component: Pricing,
@@ -108,12 +110,24 @@ function Pricing() {
   return (
     <div>
       {/* Header */}
-      <section className="bg-gradient-to-br from-accent-foreground to-primary text-primary-foreground py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-serif mb-4">Tobago Diving Prices &amp; PADI Certification Courses</h1>
-          <p className="text-xl max-w-2xl mx-auto">
+      <section className="bg-gradient-to-br from-accent-foreground to-primary text-white py-16 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <PageBreadcrumbs current="Dives & Courses" light />
+          <div className="max-w-3xl mt-10">
+          <p className="text-sm uppercase tracking-[0.18em] font-semibold text-white/70 mb-3">Choose your experience</p>
+          <h1 className="text-4xl md:text-6xl font-serif mb-5 leading-tight">Tobago Dives &amp; PADI Certification Courses</h1>
+          <p className="text-lg md:text-xl text-white/85 leading-relaxed">
             Browse guided scuba diving, equipment rental and PADI certification courses in Trinidad and Tobago from our Castara dive centre. Contact us for availability or a tailored Tobago dive holiday package.
           </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-card border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid md:grid-cols-3 gap-4">
+          {[['New to diving?', 'Start with supportive training and beginner-friendly options.'], ['Already certified?', 'Choose guided dives matched to your experience and interests.'], ['Planning a dive holiday?', 'Combine dives, equipment and accommodation support around your dates.']].map(([title, copy]) => (
+            <div key={title} className="rounded-2xl border bg-background p-5"><h2 className="font-serif text-xl mb-2">{title}</h2><p className="text-sm text-muted-foreground leading-relaxed">{copy}</p></div>
+          ))}
         </div>
       </section>
 
@@ -132,7 +146,7 @@ function Pricing() {
               </div>
             </div>
           ) : (
-          <Tabs defaultValue="courses" className="w-full">
+          <Tabs defaultValue={finalPricingData[0]?.type} className="w-full">
             <div className="flex justify-center mb-12 px-2">
               <TabsList className="flex flex-col sm:flex-row h-auto w-full max-w-4xl bg-muted/80 p-1.5 rounded-2xl shadow-inner border border-input mx-auto gap-1">
                 {finalPricingData.map((category, idx) => (
@@ -215,7 +229,7 @@ function Pricing() {
                     </Table>
                     <div className="p-6 border-t flex justify-center bg-muted/5">
                       <Button asChild size="lg" className="w-full sm:w-auto min-w-[200px]">
-                        <a href="#footer">Book Now</a>
+                        <a href="#contact">Check Availability</a>
                       </Button>
                     </div>
                   </div>
@@ -263,7 +277,7 @@ function Pricing() {
                     </div>
                     <div className="p-6 border-t flex justify-center bg-muted/5">
                       <Button asChild size="lg" className="w-full sm:w-auto min-w-[200px]">
-                        <a href="#footer">Book Now</a>
+                        <a href="#contact">Check Availability</a>
                       </Button>
                     </div>
                   </div>
@@ -347,7 +361,7 @@ function Pricing() {
                               <div className="text-3xl font-serif text-primary">{item.price}</div>
                             </div>
                             <Button asChild size="lg" className="rounded-full px-8 shrink-0 transition-transform hover:scale-105 active:scale-95 w-full sm:w-auto">
-                              <a href="#footer">Book Now</a>
+                              <a href="#contact">Ask About This Course</a>
                             </Button>
                           </div>
                         </CardContent>
@@ -395,17 +409,17 @@ function Pricing() {
                     {pkg.ideal}
                   </p>
 
-                  <div className="space-y-2 mb-6">
+                  <div className="space-y-0 mb-6 border-l-2 border-primary/25 ml-2">
                     {pkg.includes.map((include, includeIndex) => (
-                      <div key={includeIndex} className="flex items-start gap-2">
-                        <Check className="size-4 text-primary flex-shrink-0 mt-0.5" />
+                      <div key={includeIndex} className="flex items-start gap-3 pb-5 pl-5 relative last:pb-0">
+                        <span className="absolute -left-[9px] top-0 size-4 rounded-full bg-primary border-4 border-card" />
                         <span className="text-sm text-muted-foreground">{include}</span>
                       </div>
                     ))}
                   </div>
 
                   <Button asChild className="w-full" variant={pkg.popular ? "default" : "outline"}>
-                    <a href="#footer">
+                    <a href="#contact">
                       Request a Tailored Package
                     </a>
                   </Button>
@@ -433,6 +447,8 @@ function Pricing() {
           </Button>
         </div>
       </section>
+
+      <BookingCTA title="Find the Right Tobago Dive Option" description="Tell us your dates and certification level. We’ll confirm availability and help you choose a course, guided dive or tailored package." />
     </div>
   );
 }

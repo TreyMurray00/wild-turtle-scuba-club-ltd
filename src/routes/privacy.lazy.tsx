@@ -2,6 +2,7 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import { Card, CardContent } from "../components/ui/card";
 import { useSanityQuery } from "../hooks/useSanityQuery";
 import { CONTACT_QUERY } from "../lib/sanity-queries";
+import { PageBreadcrumbs } from '../components/PageBreadcrumbs';
 
 export const Route = createLazyFileRoute('/privacy')({
   component: Privacy,
@@ -13,10 +14,11 @@ function Privacy() {
   return (
     <div>
       {/* Header */}
-      <section className="bg-gradient-to-br from-accent-foreground to-primary text-primary-foreground py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-serif mb-4">Privacy Policy</h1>
-          <p className="text-xl max-w-2xl mx-auto">
+      <section className="bg-accent-foreground text-white py-12 md:py-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <PageBreadcrumbs current="Privacy Policy" light />
+          <h1 className="text-4xl md:text-5xl font-serif mt-8 mb-3">Privacy Policy</h1>
+          <p className="text-lg max-w-2xl text-white/75">
             Your privacy is important to us
           </p>
         </div>
@@ -24,9 +26,10 @@ function Privacy() {
 
       {/* Content */}
       <section className="py-16 bg-background">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Card>
-            <CardContent className="p-8 space-y-6">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-[220px_1fr] gap-8 items-start">
+          <aside className="md:sticky md:top-24 rounded-2xl border bg-card p-5"><p className="font-semibold mb-3">On this page</p><nav className="flex flex-col gap-2 text-sm text-muted-foreground"><a href="#data-collection" className="hover:text-primary">Data collection</a><a href="#external-links" className="hover:text-primary">External links</a><a href="#policy-changes" className="hover:text-primary">Policy changes</a><a href="#privacy-contact" className="hover:text-primary">Contact</a></nav></aside>
+          <Card className="rounded-2xl">
+            <CardContent className="p-6 md:p-10 space-y-9 leading-relaxed">
               <div>
                 <p className="text-muted-foreground mb-4">
                   <strong>Last Updated:</strong> April 8, 2026
@@ -38,7 +41,7 @@ function Privacy() {
                 </p>
               </div>
 
-              <div>
+              <div id="data-collection" className="scroll-mt-24">
                 <h2 className="text-2xl font-serif mb-4">No Data Collection</h2>
                 <div className="space-y-4 text-muted-foreground">
                   <p>
@@ -56,7 +59,7 @@ function Privacy() {
                 </div>
               </div>
 
-              <div>
+              <div id="external-links" className="scroll-mt-24">
                 <h2 className="text-2xl font-serif mb-4">External Links</h2>
                 <p className="text-muted-foreground">
                   Our website may occasionally link out to independent third-party services or social media handlers. 
@@ -65,7 +68,7 @@ function Privacy() {
                 </p>
               </div>
 
-              <div>
+              <div id="policy-changes" className="scroll-mt-24">
                 <h2 className="text-2xl font-serif mb-4">Changes to This Policy</h2>
                 <p className="text-muted-foreground">
                   We may update this Privacy Policy from time to time. We will notify you of any changes by 
@@ -73,7 +76,7 @@ function Privacy() {
                 </p>
               </div>
 
-              <div>
+              <div id="privacy-contact" className="scroll-mt-24 rounded-xl bg-accent/60 p-5">
                 <h2 className="text-2xl font-serif mb-4">Contact Us</h2>
                 <p className="text-muted-foreground">
                   If you have questions about this Privacy Policy or our data practices, please contact us at:
@@ -82,9 +85,9 @@ function Privacy() {
                   <p>Wild Turtle Scuba Club Ltd.</p>
                   {contact?.address?.map((line: string, i: number) => (
                     <p key={i}>{line}</p>
-                  )) || <p>123 Ocean Drive, Coastal City, CA 90210</p>}
-                  <p>Email: {contact?.email || "privacy@wildturtlescuba.com"}</p>
-                  <p>Phone: {contact?.phone || "(555) 123-4567"}</p>
+                  ))}
+                  {contact?.email && <p>Email: <a className="text-primary hover:underline" href={`mailto:${contact.email}`}>{contact.email}</a></p>}
+                  {contact?.phone && <p>Phone: <a className="text-primary hover:underline" href={`tel:${contact.phone}`}>{contact.phone}</a></p>}
                 </div>
               </div>
             </CardContent>

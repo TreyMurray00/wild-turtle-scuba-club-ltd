@@ -10,7 +10,7 @@ export function Navigation() {
 
   const navLinks = [
     { path: "/", label: "Home" },
-    { path: "/pricing", label: "Pricing" },
+    { path: "/pricing", label: "Dives & Courses" },
     { path: "/about", label: "About" },
     { path: "/gallery", label: "Gallery" },
     { path: "#footer", label: "Contact" },
@@ -35,14 +35,14 @@ export function Navigation() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-7">
             {navLinks.map((link) => (
               link.path.startsWith("#") ? (
                 <a
                   key={link.path}
                   href={link.path}
-                  className={`transition-colors hover:text-primary ${
-                    isActive(link.path) ? "text-primary" : ""
+                  className={`transition-colors hover:text-white/80 ${
+                    isActive(link.path) ? "text-white font-semibold border-b-2 border-white pb-1" : ""
                   }`}
                 >
                   {link.label}
@@ -51,14 +51,17 @@ export function Navigation() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`transition-colors hover:text-primary ${
-                    isActive(link.path) ? "text-primary" : ""
+                  className={`transition-colors hover:text-white/80 ${
+                    isActive(link.path) ? "text-white font-semibold border-b-2 border-white pb-1" : ""
                   }`}
                 >
                   {link.label}
                 </Link>
               )
             ))}
+            <Button asChild className="rounded-full bg-primary text-primary-foreground px-5 shadow-md hover:bg-primary/90">
+              <Link to="/pricing">Book a Dive</Link>
+            </Button>
           </div>
 
           {/* Mobile menu button */}
@@ -82,8 +85,8 @@ export function Navigation() {
                   key={link.path}
                   href={link.path}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block py-2 transition-colors hover:text-primary ${
-                    isActive(link.path) ? "text-primary" : ""
+                  className={`block py-2 transition-colors hover:text-white/80 ${
+                    isActive(link.path) ? "text-white font-semibold" : ""
                   }`}
                 >
                   {link.label}
@@ -93,14 +96,17 @@ export function Navigation() {
                   key={link.path}
                   to={link.path}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block py-2 transition-colors hover:text-primary ${
-                    isActive(link.path) ? "text-primary" : ""
+                  className={`block py-2 transition-colors hover:text-white/80 ${
+                    isActive(link.path) ? "text-white font-semibold" : ""
                   }`}
                 >
                   {link.label}
                 </Link>
               )
             ))}
+            <Button asChild className="mt-3 w-full rounded-full">
+              <Link to="/pricing" onClick={() => setIsMenuOpen(false)}>Book a Dive</Link>
+            </Button>
           </div>
         )}
       </div>

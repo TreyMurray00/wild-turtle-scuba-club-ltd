@@ -1,4 +1,4 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, Link } from '@tanstack/react-router'
 import { useState, useCallback } from 'react'
 import { ImageWithFallback } from '../components/figma/ImageWithFallback'
 import { Skeleton } from '../components/ui/skeleton'
@@ -7,6 +7,8 @@ import { GALLERY_QUERY } from '../lib/sanity-queries'
 import { urlFor } from '../lib/sanity'
 import { X, ZoomIn, ChevronLeft, ChevronRight, Images } from 'lucide-react'
 import { Button } from '../components/ui/button'
+import { PageBreadcrumbs } from '../components/PageBreadcrumbs'
+import { BookingCTA } from '../components/BookingCTA'
 
 export const Route = createLazyFileRoute('/gallery')({
   component: Gallery,
@@ -20,6 +22,15 @@ const CATEGORIES = [
   { label: 'Courses', value: 'courses' },
   { label: 'Accommodation', value: 'accommodation' },
 ]
+
+const CATEGORY_DESCRIPTIONS: Record<string, string> = {
+  all: 'Explore diving, marine life, courses and coastal experiences from Tobago.',
+  diving: 'A closer look at guided scuba diving around Tobago.',
+  fishing: 'Days spent fishing and exploring Tobago from the water.',
+  'marine-life': 'Reef residents and memorable encounters beneath the surface.',
+  courses: 'Training moments from PADI courses and developing divers.',
+  accommodation: 'Places and surroundings that help complete a Tobago dive holiday.',
+}
 
 type GalleryPhoto = {
   _id: string
@@ -115,6 +126,8 @@ function Gallery() {
           src={urlFor(photo.image).width(800).url()}
           alt={photo.altText ?? photo.title}
           className="gallery-item__img"
+          loading="lazy"
+          sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw"
         />
         <div className="gallery-item__overlay">
           <ZoomIn className="gallery-item__zoom-icon" />
@@ -132,12 +145,16 @@ function Gallery() {
   return (
     <div className="gallery-page">
       {/* ── Hero ── */}
-      <section className="bg-gradient-to-br from-accent-foreground to-primary text-primary-foreground py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-serif mb-4">Our Gallery</h1>
-          <p className="text-xl md:text-2xl max-w-2xl mx-auto text-primary-foreground/90">
+      <section className="bg-gradient-to-br from-accent-foreground to-primary text-white py-16 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <PageBreadcrumbs current="Gallery" light />
+          <div className="max-w-3xl mt-10">
+          <p className="text-sm uppercase tracking-[0.18em] font-semibold text-white/70 mb-3">Below the surface</p>
+          <h1 className="text-4xl md:text-6xl font-serif mb-5">Tobago Diving Gallery</h1>
+          <p className="text-lg md:text-xl max-w-2xl text-white/85 leading-relaxed">
             Moments captured beneath the waves — diving, marine life, and unforgettable adventures.
           </p>
+          </div>
         </div>
       </section>
 
@@ -164,6 +181,7 @@ function Gallery() {
             )
           })}
         </div>
+        <p className="max-w-7xl mx-auto px-6 pb-3 text-sm text-muted-foreground">{CATEGORY_DESCRIPTIONS[activeCategory]}</p>
       </section>
 
       {/* ── Masonry Grid ── */}
@@ -231,6 +249,9 @@ function Gallery() {
               <p className="gallery-lightbox__counter">
                 {lightboxIndex + 1} / {filtered.length}
               </p>
+              <Button asChild size="sm" className="mt-2 rounded-full">
+                <Link to="/pricing" onClick={closeLightbox}>Explore dives &amp; courses</Link>
+              </Button>
             </div>
           </div>
 
@@ -248,22 +269,7 @@ function Gallery() {
         </div>
       )}
       
-      {/* ── CTA Section ── */}
-      <section className="py-16 bg-accent">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-serif text-accent-foreground mb-4">
-            Want to be in our gallery?
-          </h2>
-          <p className="text-lg md:text-xl text-accent-foreground/90 font-sans max-w-2xl mx-auto mb-8">
-            Join us for a dive, fishing trip, or snorkel tour and create your own unforgettable memories.
-          </p>
-          <Button asChild size="lg" className="font-bold px-8 py-3 rounded-lg shadow-md hover:scale-105 transition-all duration-300">
-            <a href="#footer">
-              Book an Experience
-            </a>
-          </Button>
-        </div>
-      </section>
+      <BookingCTA title="Create Your Own Tobago Memories" description="Join us for a dive, course or ocean experience and start planning your time on the water." />
     </div>
   )
 }
