@@ -52,12 +52,12 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
       { property: 'og:site_name', content: 'Wild Turtle Scuba Club' },
       { property: 'og:locale', content: 'en_TT' },
-      { property: 'og:image', content: 'https://www.new.divingintobago.com/wildturtleclub_favicon.png' },
+      { property: 'og:image', content: 'https://www.divingintobago.com/wildturtleclub_favicon.webp' },
       { property: 'og:image:alt', content: 'Wild Turtle Scuba Club Tobago logo' },
       { property: 'og:image:type', content: 'image/png' },
       { property: 'og:image:width', content: '1280' },
       { property: 'og:image:height', content: '1280' },
-      { name: 'twitter:image', content: 'https://www.new.divingintobago.com/wildturtleclub_favicon.png' },
+      { name: 'twitter:image', content: 'https://www.divingintobago.com/wildturtleclub_favicon.webp' },
       { name: 'twitter:image:alt', content: 'Wild Turtle Scuba Club Tobago logo' },
       { title: 'Wild Turtle Scuba Club Ltd.' },
     ],
@@ -65,7 +65,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       { rel: 'stylesheet', href: appCss },
       { rel: 'stylesheet', href: slickCss },
       { rel: 'stylesheet', href: slickThemeCss },
-      { rel: 'icon', type: 'image/png', href: '/wildturtleclub_favicon.png' },
+      { rel: 'icon', type: 'image/webp', href: '/wildturtleclub_favicon.webp' },
     ],
   }),
   notFoundComponent: NotFound,
@@ -81,7 +81,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     '@type': ['LocalBusiness', 'SportsActivityLocation'],
     name: 'Wild Turtle Scuba Club Ltd.',
     description: 'Scuba diving in Tobago, guided dive trips, equipment rental and PADI certification courses in Castara, Trinidad and Tobago.',
-    url: 'https://www.new.divingintobago.com/',
+    url: 'https://www.divingintobago.com/',
     email: contact?.email || undefined,
     telephone: contact?.phone || undefined,
     address: {
@@ -190,13 +190,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                     </ul>
                   </div>
 
-                  {/* Hours */}
+                  {/* Planning */}
                   <div>
-                    <h3 className="font-serif text-lg mb-4">Hours</h3>
+                    <h3 className="font-serif text-lg mb-4">Plan Your Dive</h3>
                     <div className="space-y-2 text-primary-foreground/80">
-                      <p>Monday - Friday: 8am - 6pm</p>
-                      <p>Saturday: 9am - 5pm</p>
-                      <p>Sunday: 10am - 4pm</p>
+                      <p>Share your dates and experience level with our Castara dive team.</p>
+                      <Link to="/pricing" className="inline-block text-primary-foreground hover:text-white underline underline-offset-4">View dives and courses</Link>
                     </div>
                   </div>
                 </div>

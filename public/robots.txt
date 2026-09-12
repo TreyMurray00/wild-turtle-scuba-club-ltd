@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 Disallow: /studio/
 
-Sitemap: https://www.new.divingintobago.com/sitemap.xml
+Sitemap: https://www.divingintobago.com/sitemap.xml

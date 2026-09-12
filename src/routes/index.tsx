@@ -13,6 +13,6 @@ export const Route = createFileRoute('/')({
       { property: 'twitter:title', content: 'Scuba Diving in Tobago & PADI Courses | Wild Turtle' },
       { property: 'twitter:description', content: 'Plan a Tobago dive holiday with guided reef dives and PADI certification courses in Castara.' }
     ],
-    links: [{ rel: 'canonical', href: 'https://www.new.divingintobago.com/' }]
+    links: [{ rel: 'canonical', href: 'https://www.divingintobago.com/' }]
   })
 })

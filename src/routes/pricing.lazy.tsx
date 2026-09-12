@@ -294,7 +294,7 @@ function Pricing() {
                           {item.image ? (
                             <>
                               <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 z-10" />
-                              <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
+                              <img loading="lazy" src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
                             </>
                           ) : (
                             <div className="text-muted-foreground/40 flex flex-col items-center gap-2">

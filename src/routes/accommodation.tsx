@@ -13,6 +13,6 @@ export const Route = createFileRoute('/accommodation')({
       { property: 'twitter:title', content: 'Castara Tobago Accommodation for Divers | Wild Turtle Scuba Club' },
       { property: 'twitter:description', content: 'Find recommended accommodation in Castara, Tobago near Wild Turtle Scuba Club.' }
     ],
-    links: [{ rel: 'canonical', href: 'https://www.new.divingintobago.com/accommodation' }]
+    links: [{ rel: 'canonical', href: 'https://www.divingintobago.com/accommodation' }]
   })
 })

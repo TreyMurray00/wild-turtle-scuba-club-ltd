@@ -17,7 +17,6 @@ import { Route as AccommodationRouteImport } from './routes/accommodation'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StudioSplatRouteImport } from './routes/studio.$'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
 
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
@@ -59,11 +58,6 @@ const StudioSplatRoute = StudioSplatRouteImport.update({
   path: '/studio/$',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/studio.$.lazy').then((d) => d.Route))
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -73,7 +67,6 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/studio/$': typeof StudioSplatRoute
 }
 export interface FileRoutesByTo {
@@ -84,7 +77,6 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/studio/$': typeof StudioSplatRoute
 }
 export interface FileRoutesById {
@@ -96,7 +88,6 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/studio/$': typeof StudioSplatRoute
 }
 export interface FileRouteTypes {
@@ -109,7 +100,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/pricing'
     | '/privacy'
-    | '/demo/tanstack-query'
     | '/studio/$'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -120,7 +110,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/pricing'
     | '/privacy'
-    | '/demo/tanstack-query'
     | '/studio/$'
   id:
     | '__root__'
@@ -131,7 +120,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/pricing'
     | '/privacy'
-    | '/demo/tanstack-query'
     | '/studio/$'
   fileRoutesById: FileRoutesById
 }
@@ -143,7 +131,6 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
   StudioSplatRoute: typeof StudioSplatRoute
 }
 
@@ -205,13 +192,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudioSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -223,7 +203,6 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
   StudioSplatRoute: StudioSplatRoute,
 }
 export const routeTree = rootRouteImport

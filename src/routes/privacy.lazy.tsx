@@ -45,16 +45,10 @@ function Privacy() {
                 <h2 className="text-2xl font-serif mb-4">No Data Collection</h2>
                 <div className="space-y-4 text-muted-foreground">
                   <p>
-                    Our website functions strictly as a static, informational resource for your viewing pleasure. 
-                    We have purposefully opted out of integrating cookies, hidden trackers, analytics telemetry, 
-                    or submission forms to ensure your browsing session is completely private.
+                  Our website does not use advertising cookies, hidden trackers or analytics telemetry. The enquiry form opens your own email application using a mailto link; the website does not transmit or store the form contents.
                   </p>
                   <p>
-                    Since we do not offer on-board user accounts or web-based booking forms, there is never a 
-                    scenario where you are asked to transmit sensitive information (such as your address, payment 
-                    details, or ID variables) directly through this platform. All bookings and reservations are 
-                    facilitated through direct external communication (e.g., via phone, email, or WhatsApp) handled 
-                    off-server.
+                    Since we do not offer user accounts or online payment processing, you are not asked to transmit payment details or identity documents through this platform. Bookings and reservations are facilitated through direct external communication by phone, email or WhatsApp.
                   </p>
                 </div>
               </div>
