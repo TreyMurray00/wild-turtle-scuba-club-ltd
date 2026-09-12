@@ -43,15 +43,50 @@ function Home() {
   const activeImages = homeData?.images && homeData.images.length > 0
     ? homeData.images.map((img: any) => ({
         url: urlFor(img).url(),
-        alt: "Hero image"
+        alt: "Scuba diving in Tobago with Wild Turtle Scuba Club"
       }))
     : [];
   
-  const headline = homeData?.herotitle || "";
-  const subheadline = homeData?.herotitle2 || "";
+  const headline = homeData?.herotitle || "Scuba Diving in Tobago";
+  const subheadline = homeData?.herotitle2 || "Guided reef dives, PADI courses and tailored Tobago dive holidays from Castara";
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Where can I go scuba diving in Tobago?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Wild Turtle Scuba Club operates from Castara on Tobago, offering guided diving for a range of experience levels.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I take PADI certification courses in Trinidad and Tobago?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. Wild Turtle Scuba Club offers PADI certification course options in Castara, Tobago. Contact the team to discuss course availability, duration and prerequisites.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can you help plan a dive holiday in Tobago?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. The team can tailor a Tobago dive package around your travel dates, experience, equipment needs and accommodation preferences.',
+        },
+      },
+    ],
+  };
 
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       {/* Hero Section with Carousel */}
       <section className="relative h-[600px] bg-accent-foreground/90">
         {isHomeLoading ? (
@@ -106,11 +141,26 @@ function Home() {
         </div>
       </section>
 
+      {/* Search-friendly introduction written for people first */}
+      <section className="py-16 bg-background">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-serif mb-6">Your Dive Holiday in Tobago Starts in Castara</h2>
+          <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
+            <p>
+              Discover <strong className="text-foreground font-medium">scuba diving in Tobago</strong> with a local dive centre based on Depot Road in Castara. We help new and experienced divers explore Tobago's reefs through guided dives, friendly instruction and well-maintained equipment.
+            </p>
+            <p>
+              Whether you are planning a dedicated <strong className="text-foreground font-medium">Tobago dive holiday</strong> or adding a day of diving to a wider Trinidad and Tobago trip, we can shape the experience around your schedule and skill level. You can also explore our <Link to="/pricing" className="text-primary underline underline-offset-4 hover:text-primary/80">PADI certification courses in Trinidad and Tobago</Link> and ask us to create a tailored dive package.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-16 bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-serif text-center mb-12">
-            Why Choose Us
+            Why Choose Wild Turtle for Diving in Tobago?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="text-center">
@@ -157,9 +207,9 @@ function Home() {
       <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-serif mb-4 flex items-center justify-center gap-2">What We Offer</h2>
+            <h2 className="text-5xl font-serif mb-4 flex items-center justify-center gap-2">Tobago Scuba Diving, PADI Courses &amp; More</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive ocean experiences designed for every skill level
+              Guided ocean experiences and dive training designed for every skill level
             </p>
           </div>
 
@@ -260,6 +310,30 @@ function Home() {
                 <ArrowRight className="ml-2 size-5" />
               </Link>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Frequently asked questions */}
+      <section className="py-16 bg-card border-y border-border/50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-4xl font-serif mb-4">Planning Scuba Diving in Trinidad and Tobago</h2>
+            <p className="text-lg text-muted-foreground">Quick answers for planning your time underwater in Tobago.</p>
+          </div>
+          <div className="space-y-6">
+            <article>
+              <h3 className="font-serif text-2xl mb-2">Where can I go scuba diving in Tobago?</h3>
+              <p className="text-muted-foreground leading-relaxed">We operate from Castara on Tobago and offer guided diving for a range of experience levels. Contact us to match current dive options with your certification and interests.</p>
+            </article>
+            <article>
+              <h3 className="font-serif text-2xl mb-2">Can I take PADI certification courses in Trinidad and Tobago?</h3>
+              <p className="text-muted-foreground leading-relaxed">Yes. Our Castara dive centre offers PADI course options in Tobago. Course availability, duration and prerequisites vary, so review our <Link to="/pricing" className="text-primary underline underline-offset-4 hover:text-primary/80">courses and pricing</Link> and contact us for the right next step.</p>
+            </article>
+            <article>
+              <h3 className="font-serif text-2xl mb-2">Can you help plan a dive holiday in Tobago?</h3>
+              <p className="text-muted-foreground leading-relaxed">Yes. We can tailor a Tobago dive package around your dates, experience, equipment needs and accommodation preferences.</p>
+            </article>
           </div>
         </div>
       </section>

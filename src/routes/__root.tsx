@@ -80,7 +80,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     '@context': 'https://schema.org',
     '@type': ['LocalBusiness', 'SportsActivityLocation'],
     name: 'Wild Turtle Scuba Club Ltd.',
-    description: 'Scuba diving, dive trips, equipment rental and PADI certification courses in Castara, Tobago.',
+    description: 'Scuba diving in Tobago, guided dive trips, equipment rental and PADI certification courses in Castara, Trinidad and Tobago.',
     url: 'https://www.new.divingintobago.com/',
     email: contact?.email || undefined,
     telephone: contact?.phone || undefined,
@@ -96,7 +96,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       { '@type': 'AdministrativeArea', name: 'Tobago' },
       { '@type': 'Country', name: 'Trinidad and Tobago' },
     ],
-    knowsAbout: ['Scuba diving in Tobago', 'PADI certification courses'],
+    knowsAbout: [
+      'Scuba diving in Tobago',
+      'Diving in Tobago',
+      'Tobago dive holidays',
+      'PADI certification courses in Trinidad and Tobago',
+      'Scuba equipment rental',
+    ],
   };
 
   return (

@@ -110,9 +110,9 @@ function Pricing() {
       {/* Header */}
       <section className="bg-gradient-to-br from-accent-foreground to-primary text-primary-foreground py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-serif mb-4">Pricing</h1>
+          <h1 className="text-5xl font-serif mb-4">Tobago Diving Prices &amp; PADI Certification Courses</h1>
           <p className="text-xl max-w-2xl mx-auto">
-            Browse scuba diving, equipment rental and PADI course options from our Castara, Tobago dive centre. Contact us for availability and help choosing the right experience.
+            Browse guided scuba diving, equipment rental and PADI certification courses in Trinidad and Tobago from our Castara dive centre. Contact us for availability or a tailored Tobago dive holiday package.
           </p>
         </div>
       </section>
