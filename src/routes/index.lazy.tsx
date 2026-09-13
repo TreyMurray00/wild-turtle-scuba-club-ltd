@@ -56,7 +56,7 @@ function Home() {
         <div className="absolute inset-0 z-10 flex items-center justify-center">
           <div className="text-center max-w-4xl mx-auto px-4 text-white flex flex-col items-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/15 px-4 py-2 text-sm font-medium tracking-wide backdrop-blur-sm mb-6"><MapPin className="size-4" /> Castara, Tobago</div>
-            {isHomeLoading ? <Skeleton className="h-16 w-3/4 mb-6 bg-white/20 rounded-xl" /> : <h1 className="text-5xl md:text-7xl font-serif font-semibold leading-[1.05] mb-6 whitespace-pre-wrap drop-shadow-lg">{headline}</h1>}
+            <h1 className="text-5xl md:text-7xl font-serif font-semibold leading-[1.05] mb-6 whitespace-pre-wrap drop-shadow-lg">{headline}</h1>
             {isHomeLoading ? <Skeleton className="h-8 w-2/3 mb-9 bg-white/20 rounded-lg" /> : <p className="text-lg md:text-2xl max-w-3xl mb-9 text-white/90 leading-relaxed">{subheadline}</p>}
             <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <Button asChild size="lg" className="rounded-full h-13 px-7 text-base bg-primary hover:bg-primary/90"><Link to="/pricing">View Dives &amp; Courses <ArrowRight className="ml-2 size-5" /></Link></Button>
@@ -119,6 +119,25 @@ function Home() {
       {(isGalleryLoading || displayedPhotos.length > 0) && <section className="py-20 md:py-24 bg-background"><div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-10"><div><p className="text-sm uppercase tracking-[0.18em] font-semibold text-primary mb-3">Below the surface</p><h2 className="text-4xl md:text-5xl font-serif">A Glimpse of Tobago</h2></div><Button asChild variant="outline" className="rounded-full self-start"><Link to="/gallery">View the gallery <Camera className="ml-2 size-4" /></Link></Button></div>{isGalleryLoading ? <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">{[1, 2, 3, 4].map((item) => <Skeleton key={item} className="aspect-square rounded-2xl" />)}</div> : <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">{displayedPhotos.map((photo: any, index: number) => <Link key={photo._id} to="/gallery" className={`relative overflow-hidden rounded-2xl group ${index === 0 ? 'col-span-2 row-span-2' : ''}`}><ImageWithFallback src={urlFor(photo.image).width(index === 0 ? 1200 : 700).url()} alt={photo.altText || photo.title} className="w-full h-full aspect-square object-cover transition-transform duration-700 group-hover:scale-105" /><div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" /><span className="absolute bottom-4 left-4 right-4 text-white font-medium">{photo.title}</span></Link>)}</div>}</div></section>}
 
       <section className="py-20 md:py-24 bg-card border-y border-border/50"><div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8"><div className="text-center mb-10"><p className="text-sm uppercase tracking-[0.18em] font-semibold text-primary mb-3">Plan with confidence</p><h2 className="text-4xl md:text-5xl font-serif mb-4">Tobago Diving Questions</h2><p className="text-lg text-muted-foreground">Quick answers before you get in touch.</p></div><Accordion type="single" collapsible className="rounded-2xl border bg-background px-6">{faqs.map((faq, index) => <AccordionItem key={faq.question} value={`faq-${index}`}><AccordionTrigger className="text-left text-lg font-serif py-6 hover:no-underline">{faq.question}</AccordionTrigger><AccordionContent className="text-base text-muted-foreground leading-relaxed pr-8">{faq.answer}{index === 1 && <> Review our <Link to="/pricing" className="text-primary underline underline-offset-4">courses and pricing</Link>.</>}</AccordionContent></AccordionItem>)}</Accordion></div></section>
+
+      <section className="py-20 md:py-24 bg-background" aria-labelledby="find-us-heading">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-[.8fr_1.2fr] gap-10 items-center">
+          <div>
+            <p className="text-sm uppercase tracking-[0.18em] font-semibold text-primary mb-3">Find us</p>
+            <h2 id="find-us-heading" className="text-4xl md:text-5xl font-serif mb-5">Your Castara Dive Centre</h2>
+            <address className="not-italic text-lg text-muted-foreground leading-relaxed mb-5">Wild Turtle Scuba Club Ltd.<br />Depot Road, Castara, Tobago<br />Trinidad and Tobago</address>
+            <p className="text-muted-foreground leading-relaxed mb-6">Use the map to find Castara and plan your journey. Contact the team before your dive to confirm where and when to meet.</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Wild+Turtle+Scuba+Club+Depot+Road+Castara+Tobago" target="_blank" rel="noopener noreferrer" className="inline-flex items-center font-semibold text-primary hover:text-accent-foreground">Open in Google Maps <ArrowRight className="ml-2 size-4" /></a>
+          </div>
+          <iframe
+            title="Map of Wild Turtle Scuba Club in Castara, Tobago"
+            src="https://www.google.com/maps?q=Wild+Turtle+Scuba+Club+Depot+Road+Castara+Tobago&output=embed"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="w-full h-[360px] md:h-[440px] rounded-3xl border-0 shadow-lg"
+          />
+        </div>
+      </section>
 
       <BookingCTA />
     </div>
