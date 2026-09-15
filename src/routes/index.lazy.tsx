@@ -38,8 +38,8 @@ function Home() {
   const activeImages = homeData?.images?.length ? homeData.images.map((image: any) => ({ url: urlFor(image).width(1800).url(), alt: 'Scuba diving in Tobago with Wild Turtle Scuba Club' })) : []
   const displayedServices = services?.length ? services.slice(0, 4) : fallbackServices
   const displayedPhotos = photos?.slice(0, 4) ?? []
-  const headline = homeData?.herotitle || 'Scuba Diving in Tobago'
-  const subheadline = homeData?.herotitle2 || 'Guided reef dives, PADI courses and tailored Tobago dive holidays from Castara'
+  const headline = homeData?.herotitle || 'Wild Turtle Scuba Club Ltd.'
+  const subheadline = homeData?.herotitle2 || 'Based on Depot Road in Castara, Wild Turtle Scuba Club offers guided scuba diving, reef dives and PADI certification courses in Tobago.'
   const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((faq) => ({ '@type': 'Question', name: faq.question, acceptedAnswer: { '@type': 'Answer', text: faq.answer } })) }
 
   return (

@@ -31,7 +31,12 @@ export function Navigation() {
           <Link to="/" className="flex items-center gap-3 text-xl">
             <img src={logo} alt="Wild Turtle Scuba Club" className="h-12 w-12" />
             <span className="font-serif hidden sm:inline">Wild Turtle Scuba Club Ltd.</span>
-            <span className="font-serif sm:hidden">Wild Turtle</span>
+            <span className="sm:hidden flex flex-col leading-none">
+              <span className="font-serif text-lg">Wild Turtle</span>
+              <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em]">
+                Scuba Club Ltd.
+              </span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
